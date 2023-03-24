@@ -1,2 +1,3 @@
-# [![Typing SVG](https://readme-typing-svg.herokuapp.com?color=%2336BCF7&lines=Spribe+userbot)](https://t.me/tgscriptss)
+[![Typing SVG](https://readme-typing-svg.herokuapp.com?font=Fira+Code&weight=700&size=24&pause=1000&color=257CBCF7&center=true&vCenter=true&width=435&lines=SPRIBE+USERBOT)](https://t.me/tgscriptss)
 Spribe Userbot - это юзер-бот, предназначенный для автоматизации рутинных задач в Telegram. Он может выполнять множество различных функций, таких как автоответчик, автопостинг, а также многие другие функции.
+[![Typing SVG](https://readme-typing-svg.herokuapp.com?font=Fira+Code&weight=700&size=24&pause=1000&color=00F789&center=true&vCenter=true&width=435&lines=Installation)](https://github.com/Pr0n1xGH/spribe-userbot/)
