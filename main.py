@@ -29,9 +29,11 @@ import colorama
 
 from pyrogram import Client
 from colorama import Fore, Back, Style
+from utils import messages
 
 logger = logging.getLogger(__name__)
-plugins = dict(root="modules", exclude=['_excample'])
+
+plugins = dict(root="modules", exclude=['_example'])
 app = Client("spribe-userbot",
             api_id=25532442,
             api_hash="d3ad1172bb28a27bed7622728d66aabb",
@@ -43,26 +45,15 @@ app = Client("spribe-userbot",
 
 def main():
     if os.path.isfile("/src/userbot.session"):
-        print(tg_logo)
+        print(messages.logo_message)
         app.run()
     else:
-
         if os.sys.platform == "win32":
             os.system("cls")
         else:
             os.system("clear")
 
-        colorama.init()
-
-        reg_message = f"{Fore.GREEN}{Style.BRIGHT}>>> Руководство по авторизации в скрипте @tgscriptss\n\n" \
-                      f"{Fore.BLUE}{Style.BRIGHT}>> Ввод своих данных:\n" \
-                      f"{Fore.WHITE}{Style.RESET_ALL}1. Вводите свой номер телефона\n" \
-                      f"2. Ввод Y для подтверждения номера\n" \
-                      f"3. Вводите код который придёт в телеграме\n" \
-                      f"4. Пароль от двухэтапной авторизации (если он есть)\n" \
-                      f"{Fore.YELLOW}"
-
-        print(reg_message)
+        print(messages.registration_message)
 
         app.start()
         app.stop()
@@ -72,16 +63,7 @@ def main():
         else:
             os.system("clear")
 
-        tg_logo = f"{Fore.BLUE}{Style.BRIGHT} ___ ___ ___ ___ ___ ___ \n" \
-                  f"/ __| _ \ _ \_ _| _ ) __|  _ __ _  _  \n" \
-                  f"\__ \  _/   /| || _ \ _| _| '_ \ || | \n" \
-                  f"|___/_| |_|_\___|___/___(_) .__/\_, | \n" \
-                  f"                   {Fore.RED}{Style.BRIGHT}v.1.4.0{Fore.BLUE}{Style.BRIGHT}|_|   |__/ \n" \
-                  f"{Fore.GREEN}{Style.BRIGHT}>>> Информация:\n" \
-                  f"{Fore.YELLOW}{Style.BRIGHT}Support: @devspribe\nTelegram: @tgscriptss\nTikTok: @tgscript\nВ других соц.сетях нас нет!\n\n" \
-                  f"{Fore.GREEN}{Style.BRIGHT}$ Скрипт запущен! Напишите {Fore.BLUE}{Style.BRIGHT}-modules{Fore.GREEN}{Style.BRIGHT}(в чат телеграма) что-бы посмотреть доступные модули"
-
-        print(tg_logo)
+        print(messages.logo_message)
 
         app.run()
 
