@@ -19,4 +19,4 @@ logo_message = f"{Fore.BLUE}{Style.BRIGHT} ___ ___ ___ ___ ___ ___ \n" \
                f"                   {Fore.RED}{Style.BRIGHT}v.1.4.0{Fore.BLUE}{Style.BRIGHT}|_|   |__/ \n" \
                f"{Fore.GREEN}{Style.BRIGHT}>>> Информация:\n" \
                f"{Fore.YELLOW}{Style.BRIGHT}Support: @devspribe\nTelegram: @tgscriptss\nTikTok: @tgscript\nВ других соц.сетях нас нет!\n\n" \
-               f"{Fore.GREEN}{Style.BRIGHT}$ Скрипт запущен! Напишите {Fore.BLUE}{Style.BRIGHT}-modules{Fore.GREEN}{Style.BRIGHT}(в чат телеграма) что-бы посмотреть доступные модули"
+               f"{Fore.GREEN}{Style.BRIGHT}$ Скрипт запущен! Напишите {Fore.BLUE}{Style.BRIGHT}.help{Fore.GREEN}{Style.BRIGHT}(в чат телеграма) что-бы посмотреть доступные модули"
