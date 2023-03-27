@@ -20,8 +20,8 @@
 </p>
 
 # Installation
-<h3>Linux, Termux (use f-droid version) and Windows [only wsl]<h3>
-
+> Linux, Termux (use f-droid version) and Windows [only wsl]
+```yes | pkg install git && pkg install python && pkg update && pkg upgrade && git clone https://github.com/Pr0n1xGH/spribe-userbot.git && cd spribe-userbot && pip install -r requirements.txt && python main.py```
 
 # About
 <p>Spribe-Userbot is a Telegram userbot (in case you didn't know, selfbot/userbot are used to automate user accounts).
