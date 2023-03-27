@@ -20,6 +20,8 @@
 </p>
 
 # Installation
+<h3>Linux, Termux (use f-droid version) and Windows [only wsl]<h3>
+
 
 # About
 <p>Spribe-Userbot is a Telegram userbot (in case you didn't know, selfbot/userbot are used to automate user accounts).
