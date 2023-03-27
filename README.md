@@ -8,7 +8,9 @@
   <a href='https://github.com/Pr0n1xGH/spribe-userbot#installation'>
         Installation
   </a>
-  <->
-  ![Telegram](https://img.shields.io/badge/-Telegram-090909?style=for-the-badge&logo=telegram&logoColor=27A0D9)](https://t.me/tgscriptss)
+  –
+  <a href='https://t.me/tgscriptss'>
+        Telegram channel
+  </a>
   <br>
 </p>
