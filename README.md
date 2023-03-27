@@ -5,14 +5,19 @@
   <br>
   <b>Make your life in Telegram easier and more convenient with Spribe-Userbot</b>
   <br>
-  <a href='https://github.com/Pr0n1xGH/spribe-userbot#Installation'>
+  <a href='https://github.com/Pr0n1xGH/spribe-userbot#installation'>
         Installation
   </a>
   –
   <a href='https://t.me/tgscriptss'>
         Telegram channel
   </a>
+  –
+  <a href="https://github.com/Pr0n1xGH/spribe-userbot/releases">
+        Releases
+  </a>
   <br>
 </p>
 
 # Installation
+
