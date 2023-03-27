@@ -5,7 +5,7 @@
   <br>
   <b>Make your life in Telegram easier and more convenient with Spribe-Userbot</b>
   <br>
-  <a href='https://github.com/Pr0n1xGH/spribe-userbot#installation'>
+  <a href='https://github.com/Pr0n1xGH/spribe-userbot#Installation'>
         Installation
   </a>
   –
@@ -14,3 +14,5 @@
   </a>
   <br>
 </p>
+
+# Installation
