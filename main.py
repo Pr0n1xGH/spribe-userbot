@@ -20,12 +20,8 @@
 # You can redistribute it and/or modify it under the terms of the GNU AGPLv3
 # >> https://www.gnu.org/licenses/agpl-3.0.html
 
-
-import asyncio
 import logging
-import glob
 import os
-import colorama
 
 from pyrogram import Client
 from colorama import Fore, Back, Style
@@ -39,33 +35,32 @@ app = Client("spribe-userbot",
             api_hash="d3ad1172bb28a27bed7622728d66aabb",
             plugins=plugins,
             lang_code="ru",
-            app_version="1.4",
+            app_version="1.0",
             device_model="PC",
             system_version="spribe-userbot")
 
 def main():
-    if os.path.isfile("/src/userbot.session"):
+    if os.path.isfile("spribe-userbot.session"):
+        clear()
         print(messages.logo_message)
         app.run()
     else:
-        if os.sys.platform == "win32":
-            os.system("cls")
-        else:
-            os.system("clear")
-
+        clear()
         print(messages.registration_message)
 
         app.start()
         app.stop()
 
-        if os.sys.platform == "win32":
-            os.system("cls")
-        else:
-            os.system("clear")
-
+        clear()
         print(messages.logo_message)
 
         app.run()
+        
+def clear():
+    if os.sys.platform == "win32":
+        os.system("cls")
+    else:
+        os.system("clear")
 
 if __name__ == "__main__":
     main()

@@ -1,4 +1,3 @@
 pyrogram==2.0.102
 colorama
 tgcrypto
-prettytable

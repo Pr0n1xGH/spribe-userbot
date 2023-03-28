@@ -4,13 +4,8 @@
 # You can redistribute it and/or modify it under the terms of the GNU AGPLv3
 # >> https://www.gnu.org/licenses/agpl-3.0.html
 
-import os
-import importlib
-import inspect
 import asyncio
-from prettytable import PrettyTable
 
-import pyrogram
 from pyrogram.types import Message
 from pyrogram import Client, filters
 
@@ -25,9 +20,15 @@ async def help_command_handler(client: Client, message: Message):
         module_name = " ".join(cmd[1:])
         await send_help_message(message, module_name)
     elif message.reply_to_message:
-        help_arg = message.reply_to_message.text
-        module_name = help_arg.split("\n")[0].strip().replace("Информация о ", "").replace(":", "")
-        await send_help_message(message, module_name)
+        try:
+            help_arg = message.reply_to_message.text
+            if help_arg in CMD_HELP:
+                module_name = help_arg.split("\n")[0].strip().replace("Информация о ", "").replace(":", "")
+                await send_help_message(message, module_name)
+            else:
+                await send_help_message(message)
+        except Exception as e:
+            print(f"Ошибка: {e}")
     else:
         await send_help_message(message)
 
@@ -39,11 +40,9 @@ def add_command_help(module_name: str, commands: list):
     for command, description in commands:
         command_dict[command] = description
 
-
 def split_list(input_list: list, n: int):
     n = max(1, n)
     return [input_list[i: i + n] for i in range(0, len(input_list), n)]
-
 
 async def send_help_message(message: Message, module_name: str = None):
     if module_name:
