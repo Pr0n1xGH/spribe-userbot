@@ -26,8 +26,8 @@
 
 > Windows
 
-<pre><code>1. Установите python 3.9 или выше
-2. Запустите файл winStart.cmd </pre></code>
+<pre><code>1. Install python 3.9 or higher
+2. Run the winStart.cmd file</pre></code>
 
 # About
 <p>Spribe-Userbot is a Telegram userbot (in case you didn't know, selfbot/userbot are used to automate user accounts).
