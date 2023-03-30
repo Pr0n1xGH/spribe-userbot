@@ -26,8 +26,7 @@
 
 > Linux, Termux (use f-droid version) and Windows [only wsl]
 
-<pre><code>
-1. Устоновите python 3.9 и выше
+<pre><code>1. Устоновите python 3.9 и выше
 2. Запустите файл winStart.cmd </pre></code>
 
 # About
