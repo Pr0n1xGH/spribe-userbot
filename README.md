@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/Pr0n1xGH/scr/blob/main/logo.jpg" />
+  <img src="https://github.com/Pr0n1xGH/scr/blob/main/logo.png" />
   <br>
   <b>Spribe-Userbot</b>
   <br>
