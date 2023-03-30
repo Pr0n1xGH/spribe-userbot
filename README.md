@@ -24,7 +24,7 @@
 
 <pre><code>pkg install --yes git python && yes | pkg update && pkg upgrade && git clone https://github.com/Pr0n1xGH/spribe-userbot.git && cd spribe-userbot && pip install -r requirements.txt && python main.py</pre></code>
 
-> Linux, Termux (use f-droid version) and Windows [only wsl]
+> Windows
 
 <pre><code>1. Устоновите python 3.9 и выше
 2. Запустите файл winStart.cmd </pre></code>
