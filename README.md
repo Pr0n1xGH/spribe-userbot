@@ -24,6 +24,12 @@
 
 <pre><code>pkg install --yes git python && yes | pkg update && pkg upgrade && git clone https://github.com/Pr0n1xGH/spribe-userbot.git && cd spribe-userbot && pip install -r requirements.txt && python main.py</pre></code>
 
+> Linux, Termux (use f-droid version) and Windows [only wsl]
+
+<pre><code>
+1. Устоновите python 3.9 и выше
+2. Запустите файл winStart.cmd </pre></code>
+
 # About
 <p>Spribe-Userbot is a Telegram userbot (in case you didn't know, selfbot/userbot are used to automate user accounts).
 So how does it work? It works in a very simple way, using the pyrogram library, a python script connects to your account (creating a new session) and catches your commands.
