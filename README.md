@@ -26,7 +26,7 @@
 
 > Windows
 
-<pre><code>1. Устоновите python 3.9 и выше
+<pre><code>1. Установите python 3.9 или выше
 2. Запустите файл winStart.cmd </pre></code>
 
 # About
