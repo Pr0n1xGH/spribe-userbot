@@ -1,7 +1,7 @@
 <p align="center">
   <img src="https://github.com/Pr0n1xGH/scr/blob/main/logo.png" />
   <br>
-  <b>Spribe-Userbot</b>
+  <b>Spribe-Userbot (beta)</b>
   <br>
   <b>Make your life in Telegram easier and more convenient with Spribe-Userbot</b>
   <br>
