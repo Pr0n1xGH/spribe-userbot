@@ -39,7 +39,8 @@ from modules.help import add_command_help</pre></code>
     filters.command('exhelp', prefixes='.') & filters.me
 )
 async def exhelp(client, message):
-    await message.edit_text("example help message") # Just an example<pre><code>
+    await message.edit_text("example help message") # Just an example
+<pre><code>
 <sub><sup>It is important to remember that the function name should not be repeated anywhere. If the function name already exists somewhere, the module will not be loaded. The same applies to teams. If the command already exists somewhere, the module will not be loaded (or an error occurs).</sup></sub>
 > 3. To add a module to .help, use the add_command_help function. The example below shows the code that adds the "excample" module to .help and defines two commands: ".command" with the description "description" and ".exHelp" with the description "example help".
 <pre><code>add_command_help(
