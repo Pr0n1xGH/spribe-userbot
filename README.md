@@ -23,7 +23,7 @@
   <br>
 </p>
 
-# <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path d="M392.8 1.2c-17-4.9-34.7 5-39.6 22l-128 448c-4.9 17 5 34.7 22 39.6s34.7-5 39.6-22l128-448c4.9-17-5-34.7-22-39.6zm80.6 120.1c-12.5 12.5-12.5 32.8 0 45.3L562.7 256l-89.4 89.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l112-112c12.5-12.5 12.5-32.8 0-45.3l-112-112c-12.5-12.5-32.8-12.5-45.3 0zm-306.7 0c-12.5-12.5-32.8-12.5-45.3 0l-112 112c-12.5 12.5-12.5 32.8 0 45.3l112 112c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l89.4-89.4c12.5-12.5 12.5-32.8 0-45.3z"/></svg> Installation
+# ⚙️ Installation
 > Linux, Termux (use f-droid version) and Windows [only wsl]
 
 <pre><code>pkg install --yes git python && yes | pkg update && pkg upgrade && git clone https://github.com/Pr0n1xGH/spribe-userbot.git && cd spribe-userbot && pip install -r requirements.txt && python main.py</pre></code>
@@ -33,7 +33,7 @@
 <pre><code>1. Install python 3.9 or higher
 2. Run the winStart.cmd file</pre></code>
 
-# Example of creating modules
+# 🛠️ Example of creating modules
 <sup>To create modules, you need to know the basics of Python and the Pyrogram library.</sup>
 > 1. Importing libraries
 ```python
@@ -84,7 +84,7 @@ add_command_help(
 )
 ```
 
-# About
+# 🍃 About
 <p>Spribe-Userbot is a Telegram userbot (in case you didn't know, selfbot/userbot are used to automate user accounts).
 So how does it work? It works in a very simple way, using the pyrogram library, a python script connects to your account (creating a new session) and catches your commands.
 
