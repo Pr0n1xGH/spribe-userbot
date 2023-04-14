@@ -53,7 +53,6 @@ async def exhelp(client, message):
 add_command_help(
     "excample",
     [
-        [".command", "description"],
         [".exHelp", "example help"],
     ]
 )
