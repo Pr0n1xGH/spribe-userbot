@@ -85,6 +85,7 @@ add_command_help(
 ```
 Did something go wrong or do you need help? - tg: @devspribe | Also, if you want to publish your module to the @tgscriptss channel, write to the telegram that is above.
 
+
 # 🍃 About
 <p>Spribe-Userbot is a Telegram userbot (in case you didn't know, selfbot/userbot are used to automate user accounts).
 So how does it work? It works in a very simple way, using the pyrogram library, a python script connects to your account (creating a new session) and catches your commands.
