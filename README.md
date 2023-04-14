@@ -5,7 +5,7 @@
   <br>
   <b>Make your life in Telegram easier and more convenient with Spribe-Userbot</b>
   <br>
-  <a href='https://github.com/Pr0n1xGH/spribe-userbot#installation'>
+  <a href='https://github.com/Pr0n1xGH/spribe-userbot#%EF%B8%8F-installation'>
         Installation
   </a>
   –
@@ -17,7 +17,7 @@
         Releases
   </a>
   -
-  <a href="https://github.com/Pr0n1xGH/spribe-userbot/blob/main/README.md#example-of-creating-modules">
+  <a href="https://github.com/Pr0n1xGH/spribe-userbot#%EF%B8%8F-example-of-creating-modules">
         Еxample of creating a module
   </a>
   <br>
