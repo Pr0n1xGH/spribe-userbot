@@ -43,9 +43,12 @@ from modules.help import add_command_help
 )
 async def exhelp(client, message):
     await message.edit_text("example help message") # Just an example
-<pre><code>
+</pre></code>
+
 <sub>It is important to remember that the function name should not be repeated anywhere. If the function name already exists somewhere, the module will not be loaded. The same applies to teams. If the command already exists somewhere, the module will not be loaded (or an error occurs).</sup>
+
 > 3. To add a module to .help, use the add_command_help function. The example below shows the code that adds the "excample" module to .help and defines two commands: ".command" with the description "description" and ".exHelp" with the description "example help".
+
 <pre><code>
 add_command_help(
     "excample",
@@ -55,7 +58,8 @@ add_command_help(
     ]
 )
 
-<pre><code>
+</pre></code>
+
 > The whole code:
 <pre><code>
 from pyrogram import Client, filters
@@ -76,7 +80,7 @@ add_command_help(
         [".exHelp", "example help"],
     ]
 )
-<pre><code>
+</pre></code>
 
 # About
 <p>Spribe-Userbot is a Telegram userbot (in case you didn't know, selfbot/userbot are used to automate user accounts).
