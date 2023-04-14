@@ -16,7 +16,7 @@
   <a href="https://github.com/Pr0n1xGH/spribe-userbot/releases">
         Releases
   </a>
-  -
+  –
   <a href="https://github.com/Pr0n1xGH/spribe-userbot#%EF%B8%8F-example-of-creating-modules">
         Еxample of creating a module
   </a>
