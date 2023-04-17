@@ -1,3 +1,5 @@
-pyrogram==2.0.102
+pyrogram
 colorama
 tgcrypto
+demapi
+aiohttp

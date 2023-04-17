@@ -13,7 +13,6 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with Spribe Userbot.  If not, see <https://www.gnu.org/licenses/>.
 
-
 # ©️ Spribe Userbot, 2023
 # This file is a part of Spribe Userbot
 # >> https://github.com/Pr0n1xGH/spribe-userbot
@@ -24,43 +23,79 @@ import logging
 import os
 
 from pyrogram import Client
-from colorama import Fore, Back, Style
+from pyrogram.errors import SessionPasswordNeeded, BadRequest, FloodWait, PhoneCodeInvalid, Unauthorized
+
 from utils import messages
 
 logger = logging.getLogger(__name__)
 
-plugins = dict(root="modules", exclude=['_example'])
+modules = dict(root="modules", exclude=['_example'])
 app = Client("spribe-userbot",
-            api_id=25532442,
-            api_hash="d3ad1172bb28a27bed7622728d66aabb",
-            plugins=plugins,
-            lang_code="ru",
-            app_version="1.0",
-            device_model="PC",
-            system_version="spribe-userbot")
+             api_id=25532442,
+             api_hash="d3ad1172bb28a27bed7622728d66aabb",
+             plugins=modules,
+             workdir="utils\\misc\\")
+
 
 def main():
-    if os.path.isfile("spribe-userbot.session"):
+    if os.path.isfile("utils\\misc\\spribe-userbot.session"):
         clear()
-        print(messages.logo_message)
-        app.run()
-    else:
-        clear()
-        print(messages.registration_message)
-
-        app.start()
-        app.stop()
-
-        clear()
-        print(messages.logo_message)
-
+        print(messages.Logo_Message)
+        print(messages.Runned)
         app.run()
         
+    else:
+        clear()
+        print(messages.Logo_Message)
+        app.connect()
+        
+        while True:
+            try:
+                phone_number = input(messages.Phone)
+                sent_code_info = app.send_code(f"+{str(phone_number)}")
+                break
+            
+            except BadRequest:
+                print(messages.BadRequest)
+                
+            except FloodWait as fw:
+                print(messages.FloodWait + fw.value + "секунд.")
+                break
+            
+            except Exception as e:
+                print(f"{messages.Error}{e}")
+                
+        try:
+            phone_code = input(messages.Code)
+            
+            app.sign_in(phone_number = phone_number, 
+                        phone_code_hash = sent_code_info.phone_code_hash,
+                        phone_code = phone_code)
+            app.run()
+            
+            print("\n" + messages.Runned)
+            
+        except SessionPasswordNeeded:
+            password = str(input(messages.Password))
+            
+            app.check_password(password)
+            app.run()
+            
+            print("\n" + messages.Runned)
+            
+        except PhoneCodeInvalid:
+            print(messages.PhoneCodeInvalid)
+            
+        except Exception as e:
+            print(f"{messages.Error}{e}")
+
+
 def clear():
     if os.sys.platform == "win32":
         os.system("cls")
     else:
         os.system("clear")
 
+
 if __name__ == "__main__":
-    main()
+   main()

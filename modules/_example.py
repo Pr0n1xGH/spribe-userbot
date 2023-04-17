@@ -16,7 +16,7 @@ from pyrogram import Client, filters # Импорт библиотек.
                                      # Функция add_command_help нужна для добавления ваших модулей в .help
 
 @Client.on_message(
-    filters.command('exhelp', prefixes='.') & filters.me # Создаём Хендлер.
+    filters.command('exhelp', prefixes='.') & filters.me # Создаём декоратор.
 )
 async def exhelp(client, message): # ВАЖНО: название функции не должно повторяться где-либо.
                                    # Если название функции уже где-то существует, модуль не будет загружен.
@@ -31,15 +31,21 @@ async def exhelp(client, message): # ВАЖНО: название функции
     await message.edit_text("example help message") # Просто пример
 
 
+"""
+Добавление модуля в .help
+"""
 
-# Добавление модуля в .help
+# Где "excample" это название модуля.
+# Называйте свой файл так-же как и название модуля.
+
+# [".command", "description"] - В первых - ковычках название команды, во вторых - описание команды
 
 """
 add_command_help(
-    "excample", # Название модуля
+    "excample",
     [
-        [".command", "description"], # В первых - ковычках название команды, во вторых - описание команды
-        [".exHelp", "example help"], # Команд может быть несколько.
+        [".command", "description"],
+        [".exHelp", "example help"],
     ]
 )
 """

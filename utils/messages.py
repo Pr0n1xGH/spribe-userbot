@@ -3,19 +3,28 @@ from colorama import Fore, Style
 
 colorama.init()
 
-registration_message = f"{Fore.GREEN}{Style.BRIGHT}>>> Руководство по авторизации в скрипте @tgscriptss\n\n" \
-                       f"{Fore.BLUE}{Style.BRIGHT}>> Ввод своих данных:\n" \
-                       f"{Fore.WHITE}{Style.RESET_ALL}1. Вводите свой номер телефона\n" \
-                       f"2. Ввод Y для подтверждения номера\n" \
-                       f"3. Вводите код который придёт в телеграме\n" \
-                       f"4. Пароль от двухэтапной авторизации (если он есть)\n" \
-                       f"{Fore.YELLOW}"
+Version = "v1.0.1"
 
-logo_message = f"{Fore.BLUE}{Style.BRIGHT} ___ ___ ___ ___ ___ ___ \n" \
+Logo_Message = f"{Fore.BLUE}{Style.BRIGHT} ___ ___ ___ ___ ___ ___ \n" \
                f"/ __| _ \ _ \_ _| _ ) __|  _ __ _  _  \n" \
                f"\__ \  _/   /| || _ \ _| _| '_ \ || | \n" \
                f"|___/_| |_|_\___|___/___(_) .__/\_, | \n" \
-               f"                   {Fore.RED}{Style.BRIGHT}v.1.0.0{Fore.BLUE}{Style.BRIGHT}|_|   |__/ \n" \
+               f"                    {Fore.RED}{Style.BRIGHT}{Version}{Fore.BLUE}{Style.BRIGHT}|_|   |__/ \n\n" \
                f"{Fore.GREEN}{Style.BRIGHT}>>> Информация:\n" \
-               f"{Fore.YELLOW}{Style.BRIGHT}Support: @devspribe\nTelegram: @tgscriptss\nTikTok: @tgscript\nВ других соц.сетях нас нет!\n\n" \
-               f"{Fore.GREEN}{Style.BRIGHT}$ Скрипт запущен! Напишите {Fore.BLUE}{Style.BRIGHT}.help{Fore.GREEN}{Style.BRIGHT}(в чат телеграма) что-бы посмотреть доступные модули"
+               f"{Fore.YELLOW}{Style.BRIGHT}Support: @devspribe\nTelegram: @tgscriptss\nTikTok: @tgscript\nВ других соц.сетях нас нет!\n"
+
+Phone = f"{Fore.GREEN}{Style.BRIGHT}>>> Авторизация:\n{Fore.GREEN}{Style.BRIGHT}${Fore.WHITE} Введите свой номер телефона(без +):{Fore.WHITE}{Style.RESET_ALL} "
+
+BadRequest = f"{Fore.GREEN}{Style.BRIGHT}${Fore.RED} Ошибка ввода{Fore.WHITE}{Style.RESET_ALL}"
+
+FloodWait = f"{Fore.GREEN}{Style.BRIGHT}${Fore.RED} У вас флуд на авторизацию, подождите "
+
+PhoneCodeInvalid = f"{Fore.GREEN}{Style.BRIGHT}${Fore.RED} Ошибка: Не правильно введён код"
+
+Error = f"{Fore.GREEN}{Style.BRIGHT}${Fore.RED} Ошибка: {Fore.YELLOW}"
+
+Code = f"{Fore.GREEN}{Style.BRIGHT}${Fore.WHITE} Введите код с телеграма:{Fore.WHITE}{Style.RESET_ALL} "
+
+Password = f"{Fore.GREEN}{Style.BRIGHT}${Fore.WHITE} Введите пароль от двухэтапной аутентификации:{Fore.WHITE}{Style.RESET_ALL} "
+
+Runned = f"{Fore.GREEN}{Style.BRIGHT}$ Скрипт запущен! Напишите {Fore.BLUE}{Style.BRIGHT}.help{Fore.GREEN}{Style.BRIGHT}(в чат телеграма) что-бы посмотреть доступные модули"
