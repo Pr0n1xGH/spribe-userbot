@@ -26,7 +26,7 @@
 # ⚙️ Installation
 > Linux, Termux (use f-droid version) and Windows [only wsl]
 
-<pre><code>pkg install --yes git python && yes | pkg update && pkg upgrade && git clone https://github.com/Pr0n1xGH/spribe-userbot.git && cd spribe-userbot && pip install -r requirements.txt && python main.py</pre></code>
+<pre><code>pkg install --yes git python && yes | pkg update && yes | pkg upgrade && git clone https://github.com/Pr0n1xGH/spribe-userbot.git && cd spribe-userbot && pip install -r requirements.txt && python main.py</pre></code>
 
 > Windows
 
