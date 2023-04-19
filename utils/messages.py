@@ -21,6 +21,8 @@ FloodWait = f"{Fore.GREEN}{Style.BRIGHT}${Fore.RED} У вас флуд на ав
 
 PhoneCodeInvalid = f"{Fore.GREEN}{Style.BRIGHT}${Fore.RED} Ошибка: Не правильно введён код"
 
+PasswordHashInvalid = f"{Fore.GREEN}{Style.BRIGHT}${Fore.RED} Ошибка: Не правильно пароль"
+
 Error = f"{Fore.GREEN}{Style.BRIGHT}${Fore.RED} Ошибка: {Fore.YELLOW}"
 
 Code = f"{Fore.GREEN}{Style.BRIGHT}${Fore.WHITE} Введите код с телеграма:{Fore.WHITE}{Style.RESET_ALL} "
