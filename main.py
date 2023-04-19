@@ -78,7 +78,8 @@ def main():
                         phone_code_hash = sent_code_info.phone_code_hash,
                         phone_code = phone_code)
             
-            print("\n" + messages.Runned)
+            clear()
+            print(messages.Logo_Message + messages.Runned)
             
             app.disconnect()
             app.run()
@@ -88,7 +89,8 @@ def main():
             
             app.check_password(password)
             
-            print("\n" + messages.Runned)
+            clear()
+            print(messages.Logo_Message + messages.Runned)
             
             app.disconnect()
             app.run()
