@@ -38,22 +38,22 @@ app = Client("spribe-userbot",
              workdir="utils/misc/")
 
 
-async def main():
+def main():
     if os.path.isfile("utils/misc/spribe-userbot.session"):   
         clear()
         print(messages.Logo_Message + "\n" + messages.Runned)
-        await app.run()
-        await idle()
+        app.run()
+        idle()
 
     else:
         clear()
         print(messages.Logo_Message)
-        await app.connect()
+        app.connect()
         
         while True:
             try:
                 phone_ = input(messages.Phone)
-                sent_code_info = await app.send_code(f"+{str(phone_)}")
+                sent_code_info = app.send_code(f"+{str(phone_)}")
                 break
             
             except BadRequest:
@@ -69,35 +69,34 @@ async def main():
         try:
             phone_code = input(messages.Code)
             
-            await app.sign_in(phone_number = phone_, 
+            app.sign_in(phone_number = phone_, 
                         phone_code_hash = sent_code_info.phone_code_hash,
                         phone_code = phone_code)
             
             clear()
             print(messages.Logo_Message + "\n" + messages.Runned)
             
-            await app.disconnect()
-            await app.run()
-            await idle()
+            app.disconnect()
+            app.run()
+            idle()
             
         except SessionPasswordNeeded:
             password = str(input(messages.Password))
             
-            await app.check_password(password)
+            app.check_password(password)
             
             clear()
             print(messages.Logo_Message + "\n" + messages.Runned)
             
-            await app.disconnect()
-            await app.run()
-            await idle()
+            app.disconnect()
+            app.run()
+            idle()
             
         except PhoneCodeInvalid:
             print(messages.PhoneCodeInvalid)
             
         except Exception as e:
             print(f"{messages.Error}{e}")
-            
 
 
 def clear():
@@ -109,6 +108,7 @@ def clear():
 
 if __name__ == "__main__":
     try:
-        asyncio.run(main())
+        main()
     except Exception as e:
-        print(messages.Error + e)
+        print(messages.Error)
+        print(e)
