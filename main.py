@@ -24,7 +24,7 @@ import asyncio
 import os
 
 from pyrogram import Client, idle
-from pyrogram.errors import SessionPasswordNeeded, BadRequest, FloodWait, PhoneCodeInvalid, Unauthorized
+from pyrogram.errors import SessionPasswordNeeded, BadRequest, FloodWait, PhoneCodeInvalid, PasswordHashInvalid
 
 from utils import messages
 
@@ -81,16 +81,21 @@ def main():
             idle()
             
         except SessionPasswordNeeded:
-            password = str(input(messages.Password))
-            
-            app.check_password(password)
-            
-            clear()
-            print(messages.Logo_Message + "\n" + messages.Runned)
-            
-            app.disconnect()
-            app.run()
-            idle()
+            while True:
+                try:
+                    password = str(input(messages.Password))
+                    
+                    app.check_password(password)
+                    
+                    clear()
+                    print(messages.Logo_Message + "\n" + messages.Runned)
+                    
+                    app.disconnect()
+                    app.run()
+                    idle()
+                    break
+                except PasswordHashInvalid:
+                    print(messages.PasswordHashInvalid)
             
         except PhoneCodeInvalid:
             print(messages.PhoneCodeInvalid)
