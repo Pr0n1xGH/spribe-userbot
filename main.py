@@ -79,7 +79,7 @@ def main():
                         phone_code = phone_code)
             
             clear()
-            print(messages.Logo_Message + messages.Runned)
+            print(messages.Logo_Message + "\n" + messages.Runned)
             
             app.disconnect()
             app.run()
@@ -90,7 +90,7 @@ def main():
             app.check_password(password)
             
             clear()
-            print(messages.Logo_Message + messages.Runned)
+            print(messages.Logo_Message + "\n" + messages.Runned)
             
             app.disconnect()
             app.run()
