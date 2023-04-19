@@ -39,15 +39,18 @@ app = Client("spribe-userbot",
 
 def main():
     if os.path.isfile("utils/misc/spribe-userbot.session"):
+        if not os.path.exists("utils/misc"):
+            os.makedirs("utils/misc")
+            
         clear()
         print(messages.Logo_Message)
         print(messages.Runned)
         app.run()
-        
+
     else:
         if not os.path.exists("utils/misc"):
             os.makedirs("utils/misc")
-            
+
         clear()
         print(messages.Logo_Message)
         app.connect()
