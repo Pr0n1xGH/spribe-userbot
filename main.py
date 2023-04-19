@@ -20,9 +20,10 @@
 # >> https://www.gnu.org/licenses/agpl-3.0.html
 
 import logging
+import asyncio
 import os
 
-from pyrogram import Client
+from pyrogram import Client, idle
 from pyrogram.errors import SessionPasswordNeeded, BadRequest, FloodWait, PhoneCodeInvalid, Unauthorized
 
 from utils import messages
@@ -37,28 +38,22 @@ app = Client("spribe-userbot",
              workdir="utils/misc/")
 
 
-def main():
-    if os.path.isfile("utils/misc/spribe-userbot.session"):
-        if not os.path.exists("utils/misc"):
-            os.makedirs("utils/misc")
-            
+async def main():
+    if os.path.isfile("utils/misc/spribe-userbot.session"):   
         clear()
-        print(messages.Logo_Message)
-        print(messages.Runned)
-        app.run()
+        print(messages.Logo_Message + "\n" + messages.Runned)
+        await idle()
+        await app.run()
 
     else:
-        if not os.path.exists("utils/misc"):
-            os.makedirs("utils/misc")
-
         clear()
         print(messages.Logo_Message)
-        app.connect()
+        await app.connect()
         
         while True:
             try:
                 phone_ = input(messages.Phone)
-                sent_code_info = app.send_code(f"+{str(phone_)}")
+                sent_code_info = await app.send_code(f"+{str(phone_)}")
                 break
             
             except BadRequest:
@@ -74,32 +69,35 @@ def main():
         try:
             phone_code = input(messages.Code)
             
-            app.sign_in(phone_number = phone_, 
+            await app.sign_in(phone_number = phone_, 
                         phone_code_hash = sent_code_info.phone_code_hash,
                         phone_code = phone_code)
             
             clear()
             print(messages.Logo_Message + "\n" + messages.Runned)
             
-            app.disconnect()
-            app.run()
+            await app.disconnect()
+            await idle()
+            await app.run()
             
         except SessionPasswordNeeded:
             password = str(input(messages.Password))
             
-            app.check_password(password)
+            await app.check_password(password)
             
             clear()
             print(messages.Logo_Message + "\n" + messages.Runned)
             
-            app.disconnect()
-            app.run()
+            await app.disconnect()
+            await idle()
+            await app.run()
             
         except PhoneCodeInvalid:
             print(messages.PhoneCodeInvalid)
             
         except Exception as e:
             print(f"{messages.Error}{e}")
+            
 
 
 def clear():
@@ -110,4 +108,7 @@ def clear():
 
 
 if __name__ == "__main__":
-   main()
+    try:
+        asyncio.run(main())
+    except Exception as e:
+        print(messages.Error + e)
