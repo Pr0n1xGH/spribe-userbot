@@ -77,19 +77,21 @@ def main():
             app.sign_in(phone_number = phone_, 
                         phone_code_hash = sent_code_info.phone_code_hash,
                         phone_code = phone_code)
-            app.disconnect()
-            app.run()
             
             print("\n" + messages.Runned)
+            
+            app.disconnect()
+            app.run()
             
         except SessionPasswordNeeded:
             password = str(input(messages.Password))
             
             app.check_password(password)
-            app.disconnect()
-            app.run()
             
             print("\n" + messages.Runned)
+            
+            app.disconnect()
+            app.run()
             
         except PhoneCodeInvalid:
             print(messages.PhoneCodeInvalid)
