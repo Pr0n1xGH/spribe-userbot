@@ -42,8 +42,8 @@ async def main():
     if os.path.isfile("utils/misc/spribe-userbot.session"):   
         clear()
         print(messages.Logo_Message + "\n" + messages.Runned)
-        await idle()
         await app.run()
+        await idle()
 
     else:
         clear()
@@ -77,8 +77,8 @@ async def main():
             print(messages.Logo_Message + "\n" + messages.Runned)
             
             await app.disconnect()
-            await idle()
             await app.run()
+            await idle()
             
         except SessionPasswordNeeded:
             password = str(input(messages.Password))
@@ -89,8 +89,8 @@ async def main():
             print(messages.Logo_Message + "\n" + messages.Runned)
             
             await app.disconnect()
-            await idle()
             await app.run()
+            await idle()
             
         except PhoneCodeInvalid:
             print(messages.PhoneCodeInvalid)
