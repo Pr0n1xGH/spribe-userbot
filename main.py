@@ -34,19 +34,19 @@ app = Client("spribe-userbot",
              api_id=25532442,
              api_hash="d3ad1172bb28a27bed7622728d66aabb",
              plugins=modules,
-             workdir="utils\\misc\\")
+             workdir="utils/misc/")
 
 
 def main():
-    if os.path.isfile("utils\\misc\\spribe-userbot.session"):
+    if os.path.isfile("utils/misc/spribe-userbot.session"):
         clear()
         print(messages.Logo_Message)
         print(messages.Runned)
         app.run()
         
     else:
-        if not os.path.exists("utils\\misc"):
-            os.makedirs("utils\\misc")
+        if not os.path.exists("utils/misc"):
+            os.makedirs("utils/misc")
             
         clear()
         print(messages.Logo_Message)
