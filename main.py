@@ -45,6 +45,9 @@ def main():
         app.run()
         
     else:
+        if not os.path.exists("utils\\misc"):
+            os.makedirs("utils\\misc")
+            
         clear()
         print(messages.Logo_Message)
         app.connect()
