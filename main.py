@@ -54,8 +54,8 @@ def main():
         
         while True:
             try:
-                phone_number = input(messages.Phone)
-                sent_code_info = app.send_code(f"+{str(phone_number)}")
+                phone_ = input(messages.Phone)
+                sent_code_info = app.send_code(f"+{str(phone_)}")
                 break
             
             except BadRequest:
@@ -71,7 +71,7 @@ def main():
         try:
             phone_code = input(messages.Code)
             
-            app.sign_in(phone_number = phone_number, 
+            app.sign_in(phone_number = phone_, 
                         phone_code_hash = sent_code_info.phone_code_hash,
                         phone_code = phone_code)
             app.run()
