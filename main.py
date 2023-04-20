@@ -75,6 +75,7 @@ def main():
             
             clear()
             print(messages.Logo_Message + "\n" + messages.Runned)
+            int(input(messages.Close))
             
             app.disconnect()
             app.run()
@@ -89,6 +90,7 @@ def main():
                     
                     clear()
                     print(messages.Logo_Message + "\n" + messages.Runned)
+                    int(input(messages.Close))
                     
                     app.disconnect()
                     app.run()
