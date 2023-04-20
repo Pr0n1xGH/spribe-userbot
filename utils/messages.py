@@ -15,15 +15,17 @@ Logo_Message = f"{Fore.BLUE}{Style.BRIGHT} ___ ___ ___ ___ ___ ___ \n" \
 
 Phone = f"{Fore.GREEN}{Style.BRIGHT}>>> Авторизация:\n{Fore.GREEN}{Style.BRIGHT}${Fore.WHITE} Введите свой номер телефона(без +):{Fore.WHITE}{Style.RESET_ALL} "
 
-BadRequest = f"{Fore.GREEN}{Style.BRIGHT}${Fore.RED} Ошибка ввода{Fore.WHITE}{Style.RESET_ALL}"
+Close = f"{Fore.GREEN}{Style.BRIGHT}${Fore.WHITE} Что-бы выйти из скрипта нажмите Enter: "
 
-FloodWait = f"{Fore.GREEN}{Style.BRIGHT}${Fore.RED} У вас флуд на авторизацию, подождите "
+BadRequest = f"{Fore.GREEN}{Style.BRIGHT}>>{Fore.RED} Ошибка ввода{Fore.WHITE}{Style.RESET_ALL}"
 
-PhoneCodeInvalid = f"{Fore.GREEN}{Style.BRIGHT}${Fore.RED} Ошибка: Не правильно введён код"
+FloodWait = f"{Fore.GREEN}{Style.BRIGHT}>>{Fore.RED} У вас флуд на авторизацию, подождите "
 
-PasswordHashInvalid = f"{Fore.GREEN}{Style.BRIGHT}${Fore.RED} Ошибка: Не правильно пароль"
+PhoneCodeInvalid = f"{Fore.GREEN}{Style.BRIGHT}>>{Fore.RED} Ошибка: Не правильно введён код"
 
-Error = f"{Fore.GREEN}{Style.BRIGHT}${Fore.RED} Ошибка: {Fore.YELLOW}"
+PasswordHashInvalid = f"{Fore.GREEN}{Style.BRIGHT}>>{Fore.RED} Ошибка: Не правильно пароль"
+
+Error = f"{Fore.GREEN}{Style.BRIGHT}>>{Fore.RED} Ошибка: {Fore.YELLOW}"
 
 Code = f"{Fore.GREEN}{Style.BRIGHT}${Fore.WHITE} Введите код с телеграма:{Fore.WHITE}{Style.RESET_ALL} "
 
