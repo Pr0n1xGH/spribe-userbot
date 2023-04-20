@@ -42,6 +42,7 @@ def main():
     if os.path.isfile("utils/misc/spribe-userbot.session"):   
         clear()
         print(messages.Logo_Message + "\n" + messages.Runned)
+        int(input(messages.Close))
         app.run()
         idle()
 
