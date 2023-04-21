@@ -8,6 +8,7 @@ import datetime
 import logging
 
 import sys
+import os
 
 # logs
 now = datetime.datetime.now()
