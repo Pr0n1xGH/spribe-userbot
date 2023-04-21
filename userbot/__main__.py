@@ -14,7 +14,9 @@ now = datetime.datetime.now()
 date_string = now.strftime(f"%Y-%m-%d_%H-%M")
 
 log_path = f"userbot/utils/misc/logs/logs-{date_string}.txt"
-logging.basicConfig(filename=log_path, level=logging.INFO)
+
+with open(log_path, 'w+') as f:
+    logging.basicConfig(filename=log_path, level=logging.INFO)
 
 # launch point
 if sys.version_info < (3, 9, 0):
