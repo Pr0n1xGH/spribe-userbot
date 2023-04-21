@@ -1,3 +1,3 @@
 pip install -r requirements.txt
-python main.py
+python -m userbot
 pause
