@@ -13,7 +13,8 @@ import sys
 now = datetime.datetime.now()
 date_string = now.strftime(f"%Y-%m-%d_%H-%M")
 
-log_path = f"userbot/utils/misc/logs/logs-{date_string}.txt"
+dir_path = os.getcwd()
+log_path = os.path.join(dir_path, f"userbot/utils/misc/logs/logs-{date_string}.txt")
 
 with open(log_path, 'w') as f:
     f.write("-- logging --")
