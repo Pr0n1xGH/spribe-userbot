@@ -10,7 +10,7 @@
   </a>
   –
   <a href='https://t.me/tgscriptss'>
-        Telegram channel
+        Сhannel with plugins
   </a>
   –
   <a href="https://github.com/Pr0n1xGH/spribe-userbot/releases">
