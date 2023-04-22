@@ -14,7 +14,7 @@ import os
 now = datetime.datetime.now()
 date_string = now.strftime(f"%Y-%m-%d-%H-%M")
 
-log_path = f"utils/misc/logs/logs-{date_string}.txt"
+log_path = f"logs/logs-{date_string}.txt"
 logging.basicConfig(filename=log_path, level=logging.INFO)
 
 # launch point
