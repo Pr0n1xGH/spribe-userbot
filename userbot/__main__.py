@@ -12,14 +12,9 @@ import os
 
 # logs
 now = datetime.datetime.now()
-date_string = now.strftime(f"%Y-%m-%d_%H-%M")
+date_string = now.strftime(f"%Y-%m-%d-%H-%M")
 
-dir_path = os.getcwd()
-log_path = os.path.join(dir_path, f"userbot/utils/misc/logs/logs-{date_string}.txt")
-
-with open(log_path, 'w') as f:
-    f.write("-- logging --")
-
+log_path = f"utils/misc/logs/logs-{date_string}.txt"
 logging.basicConfig(filename=log_path, level=logging.INFO)
 
 # launch point
