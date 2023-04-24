@@ -31,16 +31,16 @@ async def loadmod(client, message):
             file_id = reply_message.document.file_id
 
             if file_name.endswith(".zip"):
-                await client.download_media(file_id, file_name=f'userbot/utils/misc/{file_name}')
+                await client.download_media(file_id, file_name=f'utils/misc/{file_name}')
 
                 zip_path = os.path.join(os.getcwd(), "userbot/utils/misc/" + file_name)
-                dest_path = os.path.join(os.getcwd(), "./plugins/")
+                dest_path = os.path.join(os.getcwd(), "./userbot/plugins/")
 
                 with zipfile.ZipFile(zip_path, "r") as zip_ref:
                     zip_ref.extractall(dest_path)
 
-                if os.path.isfile("utils/misc/" + file_name):
-                    os.remove("utils/misc/" + file_name)
+                if os.path.isfile("userbot/utils/misc/" + file_name):
+                    os.remove("userbot/utils/misc/" + file_name)
 
                 logger.info(f"Был загружен архив с модулями({file_name})")
                 
