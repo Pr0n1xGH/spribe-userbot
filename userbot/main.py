@@ -21,7 +21,7 @@
 
 import os
 
-from pyrogram import Client, idle
+from pyrogram import Client
 from pyrogram.errors import SessionPasswordNeeded, BadRequest, \
                             FloodWait, PhoneCodeInvalid, PasswordHashInvalid
 
@@ -42,7 +42,6 @@ class UserBot(Client):
             self.clear()
             print(messages.Logo_Message + "\n" + messages.Runned)
             self.run()
-            idle()
             
         else:
             self.clear()
@@ -77,7 +76,6 @@ class UserBot(Client):
                 
                 self.disconnect()
                 self.run()
-                idle()
                 
             except SessionPasswordNeeded:
                 while True:
@@ -91,7 +89,6 @@ class UserBot(Client):
                         
                         self.disconnect()
                         self.run()
-                        idle()
                         break
                     
                     except PasswordHashInvalid:
