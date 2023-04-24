@@ -3,7 +3,7 @@ from colorama import Fore, Style
 
 colorama.init()
 
-Version = "v1.0.1"
+Version = "v1.0.2"
 
 Logo_Message = f"{Fore.BLUE}{Style.BRIGHT} ___ ___ ___ ___ ___ ___ \n" \
                f"/ __| _ \ _ \_ _| _ ) __|  _ __ _  _  \n" \
