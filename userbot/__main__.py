@@ -6,18 +6,20 @@
 
 import datetime
 import logging
-
 import sys
-import os
+import traceback
 
 # logs
 now = datetime.datetime.now()
 date_string = now.strftime(f"%Y-%m-%d-%H-%M")
 
 log_path = f"logs/logs-{date_string}.txt"
-logging.basicConfig(filename=log_path, level=logging.INFO)
+logging.basicConfig(filename=log_path, 
+                    level=logging.INFO, 
+                    format=f"%(asctime)s:%(name)s:%(process)d:%(lineno)d | %(levelname)s %(message)s")
+logger = logging.getLogger(__name__)
 
-# launch point
+# launch point 
 if sys.version_info < (3, 9, 0):
     print("Error: you must use at least Python version 3.9.0")
 
@@ -27,14 +29,11 @@ elif __package__ != "userbot":
 else:
     try:
         from .main import UserBot
-        
-        try:
-            ubot = UserBot()
-            ubot.main()
-        except KeyboardInterrupt:
-            sys.exit()
+
+        UserBot().main()
 
     except Exception as e:
         from .main import messages
 
+        logger.error(f"{traceback.format_exc()}")
         print(f"{messages.Error}{e}")
