@@ -9,6 +9,8 @@
 # Что-бы создавать модули вы должны знать основы языка Python и библиотеки Pyrogram
 
 from .help import add_command_help
+from ..__main__ import logger # Добавление логирования
+
 from pyrogram import Client, filters # Импорт библиотек. 
                                      # Можно использовать любые другие, которые есть в requirements.txt, или
                                      # по умолчанию уже встроенные в Python.
