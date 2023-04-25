@@ -2,3 +2,4 @@ pyrogram
 colorama
 tgcrypto
 aiohttp
+nest_asyncio
