@@ -33,37 +33,26 @@ async def loadmod(client, message):
             if file_name.endswith(".zip"):
                 await client.download_media(file_id, file_name=f'utils/misc/{file_name}')
 
-                zip_path = os.path.join(os.getcwd(), "userbot/utils/misc/" + file_name)
-                dest_path = os.path.join(os.getcwd(), "./userbot/plugins/")
+                zip_path = os.path.join(os.getcwd(), "utils/misc/" + file_name)
+                dest_path = os.path.join(os.getcwd(), "./modules/")
 
                 with zipfile.ZipFile(zip_path, "r") as zip_ref:
                     zip_ref.extractall(dest_path)
 
-                if os.path.isfile("userbot/utils/misc/" + file_name):
-                    os.remove("userbot/utils/misc/" + file_name)
+                if os.path.isfile("utils/misc/" + file_name):
+                    os.remove("utils/misc/" + file_name)
 
-                logger.info(f"Был загружен архив с модулями({file_name})")
-                
             else:
-                if file_name.endswith(".py"):
-                    await client.download_media(file_id, file_name=f'plugins/{file_name}')
-                    
-                    logger.info(f"Был загружен модуль {file_name}")
-                    
-                    await message.edit('<emoji id=5438274168422409988>⚙</emoji> ▸ Модуль успешно добавлен!\n\n<emoji id=5341350410252723241>🛠️</emoji> Перезагрузите скрипт командой `.reload` что-бы модули заработали.')
-                    
-                else:
-                    await message.edit('<emoji id=5210952531676504517>🔴</emoji> ▸ В этом сообщении не обнаружено модуля.')
+                await client.download_media(file_id, file_name=f'modules/{file_name}')
 
+            await message.edit('<emoji id=5438274168422409988>⚙</emoji> ▸ Модуль успешно добавлен!\n\n<emoji id=5341350410252723241>🛠️</emoji> Перезагрузите скрипт командой -reload что-бы модули заработали.')
         else:
             await message.edit('<emoji id=5210952531676504517>🔴</emoji> ▸ В этом сообщении не обнаружено модуля.')
 
-    logger.info("Была использована команда .loadmod")
-
     await asyncio.sleep(10)
     await message.delete()
-
-
+    
+    
 @Client.on_message(
     filters.command('unloadmod', prefixes='.') & filters.me
 )
@@ -79,26 +68,23 @@ async def unloadmod(client, message):
         exclude_modules = ["default", "default.py", "help",
                            "help.py", "_example", "_example.py"]
 
-        if os.path.isfile("userbot/plugins/" + name_module):
+        if os.path.isfile("modules/" + name_module):
             if name_module in exclude_modules:
                 await message.edit('<emoji id=5210952531676504517>🔴</emoji> ▸ Незя!')
             else:
-                os.remove("userbot/plugins/" + name_module)
+                os.remove("modules/" + name_module)
                 await message.edit("<emoji id=5206607081334906820>🟢</emoji> ▸ Модуль был удалён!")
                 
-                logger.info(f"Был удалён модуль {name_module}")
-                
         else:
-            await message.edit("<emoji id=5210952531676504517>🔴</emoji> ▸ Такого модуля не существует, или написан в неправильном регистре.")
+            await message.edit("<emoji id=5210952531676504517>🔴</emoji> ▸ Такого модуля не существует.")
             
     except Exception as e:
         await message.edit("<emoji id=5386757912607599167>🛠️</emoji> ▸ Произошла ошибка:\n\n" + e)
-        logger.error(f"Error: .unloadmod: {e}")
 
     await asyncio.sleep(10)
     await message.delete()
-
-
+    
+    
 @Client.on_message(
     filters.command('backup', prefixes='.') & filters.me
 )
@@ -108,7 +94,7 @@ async def backup(client, message):
     zip_file = zipfile.ZipFile('modules.zip', 'w', zipfile.ZIP_DEFLATED)
 
     modules = 0
-    for root, dirs, files in os.walk("userbot/plugins/"):
+    for root, dirs, files in os.walk("modules/"):
         for file in files:
             if file.endswith('.py'):
                 if file != '_example.py' and file != 'default.py' and file != 'help.py':
@@ -124,9 +110,7 @@ async def backup(client, message):
     if os.path.isfile("modules.zip"):
         os.remove("modules.zip")
         
-    logger.info("Была использована команда .backup")
-
-
+        
 @Client.on_message(
     filters.command('reload', prefixes='.') & filters.me
 )
@@ -138,8 +122,6 @@ async def reload(client, message):
         await client.restart(block = block == "True")
         await message.edit('<emoji id=5438274168422409988>⚙</emoji> ▸ Скрипт перезагрузился.')
         
-        logger.info("Скрипт был перезагружен.")
-
     except Exception as e:
         await message.edit(f'<emoji id=5438274168422409988>🔄️</emoji> ▸ Ошибка...\n\n<emoji id=5386757912607599167>🛠️</emoji> {e}')
     
@@ -194,14 +176,14 @@ async def logs(client, message):
             await message.edit(f"logs from Spribe-Userbot \n`{file_text}`")
 
     logger.info("Были взяты логи командой .logs")
-
+    
 add_command_help(
     "default",
     [
         [".loadmod", "Добавляет новый модуль(используется в ответ на сообщение)"],
         [".unloadmod [Название модуля]", "Удаляет модуль"],
         [".backup", "Делает бэкап всех модулей"],
-        [".logs [all]", "Даёт логи последнего запуска юзербота(без all) / Даёт zip файл со всеми логами"],
+        [".logs [all]", "Даёт логи последнего запуска скрипта(без all) / Даёт zip файл со всеми логами"],
         [".reload", "Перезагружает скрипт"],
     ],
 )
