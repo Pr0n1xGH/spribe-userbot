@@ -20,8 +20,9 @@
 # >> https://www.gnu.org/licenses/agpl-3.0.html
 
 import os
+import asyncio
 
-from pyrogram import Client
+from pyrogram import Client, idle
 from pyrogram.errors import SessionPasswordNeeded, BadRequest, \
                             FloodWait, PhoneCodeInvalid, PasswordHashInvalid
 
@@ -31,8 +32,8 @@ class UserBot(Client):
     def __init__(self):
         super().__init__(
             "spribe-userbot",
-            api_id=25532442,
-            api_hash="d3ad1172bb28a27bed7622728d66aabb",
+            api_id=18822408,
+            api_hash="e2c5ab68e39c32c3a0ce94570204a0a4",
             plugins=dict(root=f"userbot/plugins", exclude=["_example"]),
             workdir="userbot/utils/misc/",
         )
@@ -42,7 +43,7 @@ class UserBot(Client):
             self.clear()
             print(messages.Logo_Message + "\n" + messages.Runned)
             self.run()
-            
+
         else:
             self.clear()
             print(messages.Logo_Message)
@@ -76,7 +77,7 @@ class UserBot(Client):
                 
                 self.disconnect()
                 self.run()
-                
+
             except SessionPasswordNeeded:
                 while True:
                     try:
