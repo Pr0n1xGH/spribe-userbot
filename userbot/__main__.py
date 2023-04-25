@@ -4,10 +4,15 @@
 # You can redistribute it and/or modify it under the terms of the GNU AGPLv3
 # >> https://www.gnu.org/licenses/agpl-3.0.html
 
+import asyncio
 import datetime
 import logging
 import sys
 import traceback
+import nest_asyncio
+from sqlite3 import OperationalError
+
+nest_asyncio.apply()
 
 # logs
 now = datetime.datetime.now()
@@ -17,6 +22,7 @@ log_path = f"logs/logs-{date_string}.txt"
 logging.basicConfig(filename=log_path, 
                     level=logging.INFO, 
                     format=f"%(asctime)s:%(name)s:%(process)d:%(lineno)d | %(levelname)s %(message)s")
+
 logger = logging.getLogger(__name__)
 
 # launch point 
@@ -28,12 +34,15 @@ elif __package__ != "userbot":
 
 else:
     try:
-        from .main import UserBot
+        from . import main
 
-        UserBot().main()
+        asyncio.run(main.UserBot().main())
+
+    except OperationalError:
+        logger.error(f"{traceback.format_exc()}")
 
     except Exception as e:
-        from .main import messages
+        from .utils import messages
 
         logger.error(f"{traceback.format_exc()}")
         print(f"{messages.Error}{e}")
