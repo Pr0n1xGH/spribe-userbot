@@ -38,21 +38,21 @@ class UserBot(Client):
             workdir="userbot/utils/misc/",
         )
 
-    def main(self):
+    async def main(self):
         if os.path.isfile("userbot/utils/misc/spribe-userbot.session"):   
             self.clear()
             print(messages.Logo_Message + "\n" + messages.Runned)
-            self.run()
+            await self.start()
 
         else:
             self.clear()
             print(messages.Logo_Message)
-            self.connect()
+            await self.connect()
             
             while True:
                 try:
                     phone_ = input(messages.Phone)
-                    sent_code_info = self.send_code(f"+{str(phone_)}")
+                    sent_code_info = await self.send_code(f"+{str(phone_)}")
                     break
                 
                 except BadRequest:
@@ -68,28 +68,28 @@ class UserBot(Client):
             try:
                 phone_code = input(messages.Code)
                 
-                self.sign_in(phone_number = phone_, 
+                await self.sign_in(phone_number = phone_, 
                             phone_code_hash = sent_code_info.phone_code_hash,
                             phone_code = phone_code)
                 
                 self.clear()
                 print(messages.Logo_Message + "\n" + messages.Runned)
                 
-                self.disconnect()
-                self.run()
+                await self.disconnect()
+                await self.start()
 
             except SessionPasswordNeeded:
                 while True:
                     try:
                         password = str(input(messages.Password))
                         
-                        self.check_password(password)
+                        await self.check_password(password)
                         
                         self.clear()
                         print(messages.Logo_Message + "\n" + messages.Runned)
                         
-                        self.disconnect()
-                        self.run()
+                        await self.disconnect()
+                        await self.start()
                         break
                     
                     except PasswordHashInvalid:
@@ -100,6 +100,8 @@ class UserBot(Client):
                 
             except Exception as e:
                 print(f"{messages.Error}{e}")
+        
+        await idle()
 
     def clear(self):
         if os.sys.platform == "win32":
