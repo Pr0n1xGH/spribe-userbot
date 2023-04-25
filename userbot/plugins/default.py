@@ -33,8 +33,8 @@ async def loadmod(client, message):
             if file_name.endswith(".zip"):
                 await client.download_media(file_id, file_name=f'utils/misc/{file_name}')
 
-                zip_path = os.path.join(os.getcwd(), "utils/misc/" + file_name)
-                dest_path = os.path.join(os.getcwd(), "./modules/")
+                zip_path = os.path.join(os.getcwd(), "userbot/utils/misc/" + file_name)
+                dest_path = os.path.join(os.getcwd(), "userbot/plugins/")
 
                 with zipfile.ZipFile(zip_path, "r") as zip_ref:
                     zip_ref.extractall(dest_path)
@@ -43,7 +43,7 @@ async def loadmod(client, message):
                     os.remove("utils/misc/" + file_name)
 
             else:
-                await client.download_media(file_id, file_name=f'modules/{file_name}')
+                await client.download_media(file_id, file_name=f'plugins/{file_name}')
 
             await message.edit('<emoji id=5438274168422409988>⚙</emoji> ▸ Модуль успешно добавлен!\n\n<emoji id=5341350410252723241>🛠️</emoji> Перезагрузите скрипт командой -reload что-бы модули заработали.')
         else:
