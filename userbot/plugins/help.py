@@ -57,13 +57,13 @@ def split_list(input_list: list, n: int) -> list:
 
 async def send_help_message(message: Message, module_name: str = None) -> None:
     if not module_name:
-        all_commands = "**<emoji id=5447410659077661506>🛠️</emoji> __Список модулей__:**\n"
+        all_commands = "**<emoji id=5447410659077661506>🛠️</emoji> __Список модулей__:**\n\n"
         for module_group in split_list(sorted(CMD_HELP.keys()), 2):
             all_commands += "• " + "\n• ".join(map(str, ["`" + cmd + "`" for cmd in module_group])) + "\n"
         all_commands += '\n<emoji id=5397782960512444700>⚙️</emoji> __Чтобы получить информацию по определенному модулю, используйте:__ `.help [Название модуля]`<a href="https://i.ibb.co/YW6RmJL/photo-2023-04-10-15-15-57.jpg">&#8203;</a>'
         await message.edit_text(all_commands)
     elif module_name in CMD_HELP:
-        module_help = f'<emoji id=5443132326189996902>🍃</emoji> __Информация о__ **{module_name}**:<a href="https://i.ibb.co/Gv14bhw/photo-2023-04-10-15-16-04.jpg">&#8203;</a>\n'
+        module_help = f'<emoji id=5443132326189996902>🍃</emoji> __Информация о__ **{module_name}**:<a href="https://i.ibb.co/Gv14bhw/photo-2023-04-10-15-16-04.jpg">&#8203;</a>\n\n'
         for command, description in CMD_HELP[module_name].items():
             module_help += f"**`{command}`** \n└ __{description}__\n"
         await message.edit_text(module_help)
