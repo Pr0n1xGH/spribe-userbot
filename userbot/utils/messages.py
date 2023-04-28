@@ -1,9 +1,13 @@
 import colorama
 from colorama import Fore, Style
 
+from rich import print
+from rich.panel import Panel
+from rich.tree import Tree
+
 colorama.init()
 
-Version = "v1.0.2"
+Version = "v1.0.3"
 
 Logo_Message = f"{Fore.BLUE}{Style.BRIGHT} ___ ___ ___ ___ ___ ___ \n" \
                f"/ __| _ \ _ \_ _| _ ) __|  _ __ _  _  \n" \
@@ -34,3 +38,10 @@ Code = f"{Fore.GREEN}{Style.BRIGHT}${Fore.WHITE} Введите код с тел
 Password = f"{Fore.GREEN}{Style.BRIGHT}${Fore.WHITE} Введите пароль от двухэтапной аутентификации:{Fore.WHITE}{Style.RESET_ALL} "
 
 Runned = f"{Fore.GREEN}{Style.BRIGHT}$ Скрипт запущен! Напишите {Fore.BLUE}{Style.BRIGHT}.help{Fore.GREEN}{Style.BRIGHT}(в чат телеграма) что-бы посмотреть доступные модули"
+
+newRun = Tree("\n[green bold]>>> Информация:[/green bold]")
+newRun.add("[yellow bold]Telegram:[/yellow bold] [link=https://t.me/tgscriptss]Тут можно скачать новые модули[/link]")
+newRun.add("[yellow bold]Github:[/yellow bold] [link=https://github.com/Pr0n1xGH/spribe-userbot]Поставьте звёздочку :3[/link]")
+newRun.add("[yellow bold]Support:[/yellow bold] [link=https://t.me/devspribe]Написать[/link]\n")
+
+newLogo = Panel("", title="[blue bold]Spribe-Userbot[/blue bold]")
