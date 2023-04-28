@@ -20,7 +20,9 @@
 # >> https://www.gnu.org/licenses/agpl-3.0.html
 
 import os
-import asyncio
+
+from rich import print
+from rich.panel import Panel
 
 from pyrogram import Client, idle
 from pyrogram.errors import SessionPasswordNeeded, BadRequest, \
@@ -32,18 +34,28 @@ class UserBot(Client):
     def __init__(self):
         super().__init__(
             "spribe-userbot",
-            api_id=18822408,
-            api_hash="e2c5ab68e39c32c3a0ce94570204a0a4",
-            plugins=dict(root=f"userbot/plugins", exclude=["_example"]),
-            workdir="userbot/utils/misc/",
+            api_id = 18822408,
+            api_hash = "e2c5ab68e39c32c3a0ce94570204a0a4",
+            plugins = dict(root=f"userbot/plugins", exclude=["_example"]),
+            workdir = "userbot/utils/misc/",
+            lang_code="ru"
         )
 
-    async def main(self):
-        if os.path.isfile("userbot/utils/misc/spribe-userbot.session"):   
+    async def _start(self):
+        if os.path.isfile("userbot/utils/misc/spribe-userbot.session"):
+            from .utils.messages import newRun
+            
             self.clear()
-            print(messages.Logo_Message + "\n" + messages.Runned)
+            print(Panel(
+                newRun, 
+                title="[blue bold]🍃 Spribe-Userbot[/blue bold]", 
+                title_align="left", 
+                subtitle="[blue bold]>> Скрипт успешно запущен! Напишите [green].help[/green](в чат телеграма) что-бы посмотреть доступные модули[/blue bold]", 
+                subtitle_align="left"
+            ))
+            
             await self.start()
-
+            
         else:
             self.clear()
             print(messages.Logo_Message)
@@ -77,7 +89,7 @@ class UserBot(Client):
                 
                 await self.disconnect()
                 await self.start()
-
+                
             except SessionPasswordNeeded:
                 while True:
                     try:
@@ -100,7 +112,7 @@ class UserBot(Client):
                 
             except Exception as e:
                 print(f"{messages.Error}{e}")
-        
+                
         await idle()
 
     def clear(self):
