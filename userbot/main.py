@@ -21,9 +21,6 @@
 
 import os
 
-from rich import print
-from rich.panel import Panel
-
 from pyrogram import Client, idle
 from pyrogram.errors import SessionPasswordNeeded, BadRequest, \
                             FloodWait, PhoneCodeInvalid, PasswordHashInvalid
@@ -42,18 +39,9 @@ class UserBot(Client):
         )
 
     async def _start(self):
-        if os.path.isfile("userbot/utils/misc/spribe-userbot.session"):
-            from .utils.messages import newRun
-            
+        if os.path.isfile("userbot/utils/misc/spribe-userbot.session"):            
             self.clear()
-            print(Panel(
-                newRun, 
-                title="[blue bold]🍃 Spribe-Userbot[/blue bold]", 
-                title_align="left", 
-                subtitle="[blue bold]>> Скрипт успешно запущен! Напишите [green].help[/green](в чат телеграма) что-бы посмотреть доступные модули[/blue bold]", 
-                subtitle_align="left"
-            ))
-            
+            print(f"{messages.Logo_Message}\n{messages.Runned}")
             await self.start()
             
         else:
