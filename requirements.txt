@@ -3,3 +3,4 @@ colorama
 tgcrypto
 aiohttp
 nest_asyncio
+rich
