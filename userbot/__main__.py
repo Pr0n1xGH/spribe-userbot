@@ -10,11 +10,12 @@ import logging
 import sys
 import traceback
 import nest_asyncio
+from rich.console import Console
 from sqlite3 import OperationalError
 
 nest_asyncio.apply()
 
-# logs
+# logs and console
 now = datetime.datetime.now()
 date_string = now.strftime(f"%Y-%m-%d-%H-%M")
 
@@ -25,24 +26,25 @@ logging.basicConfig(filename=log_path,
 
 logger = logging.getLogger(__name__)
 
+console = Console()
+
 # launch point 
-if sys.version_info < (3, 9, 0):
-    print("Error: you must use at least Python version 3.9.0")
+if __name__ == "__main__":
+    if sys.version_info < (3, 9, 0):
+        print("Error: you must use at least Python version 3.9.0")
 
-elif __package__ != "userbot":
-    print("Error: you cannot run this as a script, you must execute as a package")
+    elif __package__ != "userbot":
+        print("Error: you cannot run this as a script, you must execute as a package")
 
-else:
-    try:
-        from . import main
+    else:
+        try:
+            from .main import UserBot
+            
+            asyncio.run(UserBot()._start())
+            
+        except OperationalError:
+            logger.error(f"{traceback.format_exc()}")
 
-        asyncio.run(main.UserBot().main())
-
-    except OperationalError:
-        logger.error(f"{traceback.format_exc()}")
-
-    except Exception as e:
-        from .utils import messages
-
-        logger.error(f"{traceback.format_exc()}")
-        print(f"{messages.Error}{e}")
+        except Exception:
+            logger.error(f"{traceback.format_exc()}")
+            console.print_exception()
