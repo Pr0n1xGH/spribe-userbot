@@ -40,7 +40,7 @@
 > 1. Importing libraries
 ```python
 from pyrogram import Client, filters
-from modules.help import add_command_help
+from .help import add_command_help
 ```
 > 2. Then you need to create a function that will perform certain actions. In the example below, the decorator `@Client.on_message` is created, which calls the `exhelp` function when the userbot receives a message with the `.exhelp` command.
 ```python
@@ -68,7 +68,7 @@ add_command_help(
 > The whole code:
 ```python
 from pyrogram import Client, filters
-from modules.help import add_command_help
+from .help import add_command_help
 
 
 @Client.on_message(
