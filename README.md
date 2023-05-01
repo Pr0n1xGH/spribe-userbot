@@ -44,20 +44,18 @@ from .help import add_command_help
 ```
 > 2. Then you need to create a function that will perform certain actions. In the example below, the decorator `@Client.on_message` is created, which calls the `exhelp` function when the userbot receives a message with the `.exhelp` command.
 ```python
-@Client.on_message(
-    filters.command('exhelp', prefixes='.') & filters.me
-)
+@Client.on_message(filters.command('exhelp', prefixes='.') & filters.me)
 async def exhelp(client, message):
     await message.edit_text("example help message") # Just an example
 ```
 
 <sub>It is important to remember that the function name should not be repeated anywhere. If the function name already exists somewhere, the module will not be loaded. The same applies to teams. If the command already exists somewhere, the module will not be loaded (or an error occurs).</sup>
 
-> 3. To add a module to `.help`, use the `add_command_help` function. The example below shows the code that adds the `excample` module to `.help` and defines two commands: `.command` with the description `description` and `.exHelp` with the description `example help`.
+> 3. To add a module to `.help`, use the `add_command_help` function. The example below shows the code that adds the `example` module to `.help` and defines two commands: `.command` with the description `description` and `.exHelp` with the description `example help`.
 
 ```python
 add_command_help(
-    "excample",
+    "example",
     [
         [".command", "description"],
         [".exHelp", "example help"],
@@ -71,15 +69,12 @@ from pyrogram import Client, filters
 from .help import add_command_help
 
 
-@Client.on_message(
-    filters.command('exhelp', prefixes='.') & filters.me
-)
+@Client.on_message(filters.command('exhelp', prefixes='.') & filters.me)
 async def exhelp(client, message):
     await message.edit_text("example help message")
 
-
 add_command_help(
-    "excample",
+    "example",
     [
         [".exHelp", "example help"],
     ]
