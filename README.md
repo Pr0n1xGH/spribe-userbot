@@ -73,6 +73,7 @@ from .help import add_command_help
 async def exhelp(client, message):
     await message.edit_text("example help message")
 
+
 add_command_help(
     "example",
     [
