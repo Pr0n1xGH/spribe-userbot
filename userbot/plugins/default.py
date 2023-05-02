@@ -18,6 +18,7 @@ from pyrogram import __version__ as verpyro
 from .help import add_command_help
 from ..utils.logger import logger
 from ..base import database
+from ..plugins.help import CMD_HELP
 
 
 @Client.on_message(filters.command('loadmod', prefixes='.') & filters.me)
@@ -74,8 +75,8 @@ async def unloadmod(client, message):
                 await message.edit('<emoji id=5210952531676504517>🔴</emoji> ▸ Незя!')
             else:
                 os.remove("userbot/plugins/" + name_module)
+                CMD_HELP.pop(f"{name_module[:-3]}")
                 await message.edit("<emoji id=5206607081334906820>🟢</emoji> ▸ Модуль был удалён!")
-
         else:
             await message.edit("<emoji id=5210952531676504517>🔴</emoji> ▸ Такого модуля не существует.")
 
