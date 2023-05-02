@@ -9,7 +9,7 @@
 # Что-бы создавать модули вы должны знать основы языка Python и библиотеки Pyrogram
 
 from .help import add_command_help
-from ..__main__ import logger # Добавление логирования
+from ..utils.logger import logger # Добавление логирования
 
 from pyrogram import Client, filters # Импорт библиотек. 
                                      # Можно использовать любые другие, которые есть в requirements.txt, или
@@ -17,9 +17,7 @@ from pyrogram import Client, filters # Импорт библиотек.
 
                                      # Функция add_command_help нужна для добавления ваших модулей в .help
 
-@Client.on_message(
-    filters.command('exhelp', prefixes='.') & filters.me # Создаём декоратор.
-)
+@Client.on_message(filters.command('exhelp', prefixes='.') & filters.me) # Создаём декоратор.
 async def exhelp(client, message): # ВАЖНО: название функции не должно повторяться где-либо.
                                    # Если название функции уже где-то существует, модуль не будет загружен.
 
