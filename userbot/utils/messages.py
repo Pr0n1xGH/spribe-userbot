@@ -3,7 +3,7 @@ from colorama import Fore, Style
 
 colorama.init()
 
-Version = "v1.0.3"
+Version = "v1.0.4"
 
 lGithub = f"{Style.RESET_ALL}https://github.com/Pr0n1xGH/spribe-userbot"
 lSupport = f"{Style.RESET_ALL}https://t.me/devspribe"
