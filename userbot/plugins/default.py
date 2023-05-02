@@ -48,7 +48,7 @@ async def loadmod(client, message):
                 await client.download_media(file_id, file_name=f'plugins/{file_name}')
 
             await message.edit(
-                '<emoji id=5438274168422409988>⚙</emoji> ▸ Модуль успешно добавлен!\n\n<emoji id=5341350410252723241>🛠️</emoji> Перезагрузите скрипт командой -reload что-бы модули заработали.')
+                '<emoji id=5438274168422409988>⚙</emoji> ▸ Модуль успешно добавлен!\n\n<emoji id=5341350410252723241>🛠️</emoji> Перезагрузите скрипт командой `.reload` что-бы модули заработали.')
         else:
             await message.edit('<emoji id=5210952531676504517>🔴</emoji> ▸ В этом сообщении не обнаружено модуля.')
 
@@ -69,11 +69,11 @@ async def unloadmod(client, message):
         exclude_modules = ["default", "default.py", "help",
                            "help.py", "_example", "_example.py"]
 
-        if os.path.isfile("modules/" + name_module):
+        if os.path.isfile("userbot/plugins/" + name_module):
             if name_module in exclude_modules:
                 await message.edit('<emoji id=5210952531676504517>🔴</emoji> ▸ Незя!')
             else:
-                os.remove("modules/" + name_module)
+                os.remove("userbot/plugins/" + name_module)
                 await message.edit("<emoji id=5206607081334906820>🟢</emoji> ▸ Модуль был удалён!")
 
         else:
