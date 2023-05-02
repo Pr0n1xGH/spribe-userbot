@@ -5,13 +5,18 @@ colorama.init()
 
 Version = "v1.0.3"
 
+lGithub = f"{Style.RESET_ALL}https://github.com/Pr0n1xGH/spribe-userbot"
+lSupport = f"{Style.RESET_ALL}https://t.me/devspribe"
+lTelegram = f"{Style.RESET_ALL}https://t.me/tgscriptss"
+lTiktok = f"{Style.RESET_ALL}https://www.tiktok.com/@tgscript"
+
 Logo_Message = f"{Fore.BLUE}{Style.BRIGHT} ___ ___ ___ ___ ___ ___ \n" \
                f"/ __| _ \ _ \_ _| _ ) __|  _ __ _  _  \n" \
                f"\__ \  _/   /| || _ \ _| _| '_ \ || | \n" \
                f"|___/_| |_|_\___|___/___(_) .__/\_, | \n" \
                f"                    {Fore.RED}{Style.BRIGHT}{Version}{Fore.BLUE}{Style.BRIGHT}|_|   |__/ \n\n" \
                f"{Fore.GREEN}{Style.BRIGHT}>>> Информация:\n" \
-               f"{Fore.YELLOW}{Style.BRIGHT}Support: @devspribe\nTelegram: @tgscriptss\nTikTok: @tgscript\nВ других соц.сетях нас нет!\n"
+               f"{Fore.YELLOW}{Style.BRIGHT}Github: {lGithub}\n{Fore.YELLOW}{Style.BRIGHT}Tiktok: {lTiktok}\n{Fore.YELLOW}{Style.BRIGHT}Telegram: {lTelegram}\n{Fore.YELLOW}{Style.BRIGHT}Support: {lSupport}\n"
 
 Phone = f"{Fore.GREEN}{Style.BRIGHT}>>> Авторизация:\n{Fore.GREEN}{Style.BRIGHT}${Fore.WHITE} Введите свой номер телефона(без +):{Fore.WHITE}{Style.RESET_ALL} "
 
