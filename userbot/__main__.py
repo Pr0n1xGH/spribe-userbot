@@ -15,12 +15,8 @@ from sqlite3 import OperationalError
 from .utils.logger import logger
 
 nest_asyncio.apply()
-
-# console and start time
 console = Console()
-start_time = time.time()
 
-# launch point 
 if __name__ == "__main__":
     if sys.version_info < (3, 9, 0):
         print("Error: you must use at least Python version 3.9.0")
