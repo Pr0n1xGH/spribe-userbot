@@ -24,7 +24,7 @@ if check.fetchone() is None:
     first_time = time.time()
     
     now = datetime.datetime.now()
-    first_date = now.strftime(f"%Y-%m-%d %H-%M")
+    first_date = now.strftime(f"%d.%m.%Y %H:%M")
     
     cur.execute("INSERT INTO user VALUES(?, ?);", (first_date, first_time))
     conn.commit()
@@ -41,15 +41,15 @@ def get_ftime() -> any:
     
     return display_time(secs)
 
-intervals = (
-    ('нед', 604800),
-    ('дн', 86400),
-    ('ч', 3600),
-    ('м', 60),
-    ('с', 1),
-)
-
 def display_time(seconds, granularity=2):
+    intervals = (
+        ('нед', 604800),
+        ('дн', 86400),
+        ('ч', 3600),
+        ('м', 60),
+        ('с', 1),
+    )
+    
     result = []
     for name, count in intervals:
         value = seconds // count
