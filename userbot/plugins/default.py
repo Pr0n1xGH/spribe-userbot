@@ -16,7 +16,7 @@ from pyrogram import Client, filters
 from pyrogram import __version__ as verpyro
 
 from .help import add_command_help
-from ..utils import logger
+from ..utils.logger import logger
 from ..base import database
 
 
