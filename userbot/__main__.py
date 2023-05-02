@@ -12,7 +12,7 @@ import time
 from rich.console import Console
 from sqlite3 import OperationalError
 
-from .utils import logger
+from .utils.logger import logger
 
 nest_asyncio.apply()
 
