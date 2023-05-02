@@ -23,88 +23,90 @@ import os
 
 from pyrogram import Client, idle
 from pyrogram.errors import SessionPasswordNeeded, BadRequest, \
-                            FloodWait, PhoneCodeInvalid, PasswordHashInvalid
+                                FloodWait, PhoneCodeInvalid, PasswordHashInvalid
 
 from .utils import messages
+
+
+def clear():
+    if os.sys.platform == "win32":
+        os.system("cls")
+    else:
+        os.system("clear")
+
 
 class UserBot(Client):
     def __init__(self):
         super().__init__(
             "spribe-userbot",
-            api_id = 18822408,
-            api_hash = "e2c5ab68e39c32c3a0ce94570204a0a4",
-            plugins = dict(root=f"userbot/plugins", exclude=["_example"]),
-            workdir = "userbot/utils/misc/",
+            api_id=18822408,
+            api_hash="e2c5ab68e39c32c3a0ce94570204a0a4",
+            plugins=dict(root=f"userbot/plugins", exclude=["_example"]),
+            workdir="userbot/utils/misc/",
             lang_code="ru"
         )
 
     async def _start(self):
-        if os.path.isfile("userbot/utils/misc/spribe-userbot.session"):            
-            self.clear()
+        if os.path.isfile("userbot/utils/misc/spribe-userbot.session"):
+            clear()
             print(f"{messages.Logo_Message}\n{messages.Runned}")
             await self.start()
-            
+
         else:
-            self.clear()
+            clear()
             print(messages.Logo_Message)
             await self.connect()
-            
+
             while True:
                 try:
                     phone_ = input(messages.Phone)
                     sent_code_info = await self.send_code(f"+{str(phone_)}")
                     break
-                
+
                 except BadRequest:
                     print(messages.BadRequest)
-                    
+
                 except FloodWait as fw:
                     print(messages.FloodWait + fw.value + "секунд.")
                     break
-                
+
                 except Exception as e:
                     print(f"{messages.Error}{e}")
-                    
+
             try:
                 phone_code = input(messages.Code)
-                
-                await self.sign_in(phone_number = phone_, 
-                            phone_code_hash = sent_code_info.phone_code_hash,
-                            phone_code = phone_code)
-                
-                self.clear()
+
+                await self.sign_in(phone_number=phone_,
+                                   phone_code_hash=sent_code_info.phone_code_hash,
+                                   phone_code=phone_code)
+
+                clear()
                 print(messages.Logo_Message + "\n" + messages.Runned)
-                
+
                 await self.disconnect()
                 await self.start()
-                
+
             except SessionPasswordNeeded:
                 while True:
                     try:
                         password = str(input(messages.Password))
-                        
+
                         await self.check_password(password)
-                        
-                        self.clear()
+
+                        clear()
                         print(messages.Logo_Message + "\n" + messages.Runned)
-                        
+
                         await self.disconnect()
                         await self.start()
                         break
-                    
+
                     except PasswordHashInvalid:
                         print(messages.PasswordHashInvalid)
-                
+
             except PhoneCodeInvalid:
                 print(messages.PhoneCodeInvalid)
-                
+
             except Exception as e:
                 print(f"{messages.Error}{e}")
-                
-        await idle()
 
-    def clear(self):
-        if os.sys.platform == "win32":
-            os.system("cls")
-        else:
-            os.system("clear")
+        await idle()
