@@ -5,28 +5,20 @@
 # >> https://www.gnu.org/licenses/agpl-3.0.html
 
 import asyncio
-import datetime
-import logging
 import sys
 import traceback
 import nest_asyncio
+import time
 from rich.console import Console
 from sqlite3 import OperationalError
 
+from .utils import logger
+
 nest_asyncio.apply()
 
-# logs and console
-now = datetime.datetime.now()
-date_string = now.strftime(f"%Y-%m-%d-%H-%M")
-
-log_path = f"logs/logs-{date_string}.txt"
-logging.basicConfig(filename=log_path, 
-                    level=logging.INFO, 
-                    format=f"%(asctime)s:%(name)s:%(process)d:%(lineno)d | %(levelname)s %(message)s")
-
-logger = logging.getLogger(__name__)
-
+# console and start time
 console = Console()
+start_time = time.time()
 
 # launch point 
 if __name__ == "__main__":
