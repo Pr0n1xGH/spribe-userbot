@@ -178,8 +178,8 @@ async def _logs(client, message):
     
 @Client.on_message(filters.command("info", ".") & filters.me)
 async def inf(client, message):
-    from ..__main__ import start_time
-    from ..utils import messages
+    from userbot.utils import messages
+    from .. import start_time
     
     uptime = time.time() - start_time
     modules = 0
@@ -193,15 +193,17 @@ async def inf(client, message):
                     modules += 1
     
     await message.edit(
-        f"🍃 **`Spribe-Userbot`**\n\n"
+        f"🍃 **`Spribe-Userbot`**\n"
+        f"**└ Ссылки**: <i>[Github](https://github.com/Pr0n1xGH/spribe-userbot) | [Support](https://t.me/devspribe) | [Channel](https://t.me/tgscriptss)</i>\n\n"
         f"**🛠️ Пользователь**: `{client.me.mention}`\n"
         f"**├ Кол-во модулей**: `{modules}` \n"
         f"**├ Версия юзербота**: `{messages.Version}` \n"
         f"**├ Версия Python**: `{python_version()}` \n"
         f"**├ Версия Pyrogram**: `{verpyro}` \n"
-        f"**└ Время работы бота**: `{database.display_time(uptime)}` \n\n"
+        f"**└ Время работы юзербота**: `{database.display_time(uptime)}` \n\n"
         f"**🕛 Первый запуск юзербота**: `{database.get_fdate()[0]}`\n"
-        f"**└ Прошло времени**: `{database.get_ftime()}` \n"
+        f"**└ Прошло времени**: `{database.get_ftime()}` \n\n",
+        disable_web_page_preview = True
     )
     await asyncio.sleep(20)
     await message.delete()
@@ -213,7 +215,7 @@ add_command_help(
         [".unloadmod [Название модуля]", "Удаляет модуль"],
         [".backup", "Делает бэкап всех модулей"],
         [".logs [all]", "Даёт логи последнего запуска скрипта(без all) / Даёт zip файл со всеми логами"],
-        [".info", "Предостовляет информацию о юзерботе"],
+        [".info", "Предоставляет информацию о юзерботе"],
         [".reload", "Перезагружает скрипт"],
     ],
 )
