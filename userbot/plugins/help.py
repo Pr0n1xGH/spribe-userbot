@@ -18,7 +18,7 @@ async def help_command_handler(client: Client, message: Message):
     cmd = message.command
     
     if len(cmd) > 1:
-        module_name = " ".join(cmd[1:])
+        module_name = " ".join(cmd[1:]).lower()
         await send_help_message(message, module_name)
     elif message.reply_to_message:
         try:
@@ -66,3 +66,4 @@ async def send_help_message(message: Message, module_name: str = None) -> None:
             all_commands += ("• " + '\n• '.join(map(str, ["`" + cmd + "`" for cmd in module_group])) + "\n")
         all_commands += "\n<emoji id=5397782960512444700>⚙</emoji> __Чтобы получить информацию по определенному модулю, используйте:__ `.help [Название модуля]`<a href=\"https://i.ibb.co/YW6RmJL/photo-2023-04-10-15-15-57.jpg\">&#8203;</a>"
         await message.edit_text(all_commands)
+        
