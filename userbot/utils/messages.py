@@ -1,9 +1,15 @@
+# ©️ Spribe Userbot, 2023
+# This file is a part of Spribe Userbot
+# >> https://github.com/Pr0n1xGH/spribe-userbot
+# You can redistribute it and/or modify it under the terms of the GNU AGPLv3
+# >> https://www.gnu.org/licenses/agpl-3.0.html
+
 import colorama
 from colorama import Fore, Style
 
 colorama.init()
 
-Version = "v1.0.4"
+Version = "v1.0.5"
 
 lGithub = f"{Style.RESET_ALL}https://github.com/Pr0n1xGH/spribe-userbot"
 lSupport = f"{Style.RESET_ALL}https://t.me/devspribe"
@@ -18,9 +24,14 @@ Logo_Message = f"{Fore.BLUE}{Style.BRIGHT} ___ ___ ___ ___ ___ ___ \n" \
                f"{Fore.GREEN}{Style.BRIGHT}>>> Информация:\n" \
                f"{Fore.YELLOW}{Style.BRIGHT}Github: {lGithub}\n{Fore.YELLOW}{Style.BRIGHT}Tiktok: {lTiktok}\n{Fore.YELLOW}{Style.BRIGHT}Telegram: {lTelegram}\n{Fore.YELLOW}{Style.BRIGHT}Support: {lSupport}\n"
 
-Phone = f"{Fore.GREEN}{Style.BRIGHT}>>> Авторизация:\n{Fore.GREEN}{Style.BRIGHT}${Fore.WHITE} Введите свой номер телефона(без +):{Fore.WHITE}{Style.RESET_ALL} "
+starting_userbot = f"{Fore.GREEN}{Style.BRIGHT}$ Запуск юзербота..."
+connecting_userbot = f"{Fore.GREEN}{Style.BRIGHT}$ Подключение..."
+sending_code = f"{Fore.GREEN}{Style.BRIGHT}$ Отправка кода..."
+code_sended = f"{Fore.GREEN}{Style.BRIGHT}$ Код отправлен!"
+signin_userbot = f"{Fore.GREEN}{Style.BRIGHT}$ Вход в аккаунт..."
+successfully = f"{Fore.GREEN}{Style.BRIGHT}$ Успешно!"
 
-Close = f"{Fore.GREEN}{Style.BRIGHT}${Fore.WHITE} Что-бы выйти из юзербота нажмите Enter: "
+Phone = f"{Fore.GREEN}{Style.BRIGHT}>>> Авторизация:\n{Fore.GREEN}{Style.BRIGHT}${Fore.WHITE} Введите свой номер телефона(без +):{Fore.WHITE}{Style.RESET_ALL} "
 
 Closed = f"{Fore.GREEN}{Style.BRIGHT}${Fore.WHITE} Вы вышли из юзербота."
 
