@@ -17,7 +17,7 @@ from pyrogram import __version__ as verpyro
 
 from .help import add_command_help
 from ..utils.logger import logger
-from ..base import database
+from ..base.database import basetime
 from ..plugins.help import CMD_HELP
 
 
@@ -201,9 +201,9 @@ async def inf(client, message):
         f"**├ Версия юзербота**: `{messages.Version}` \n"
         f"**├ Версия Python**: `{python_version()}` \n"
         f"**├ Версия Pyrogram**: `{verpyro}` \n"
-        f"**└ Время работы юзербота**: `{database.display_time(uptime)}` \n\n"
-        f"**🕛 Первый запуск юзербота**: `{database.get_fdate()[0]}`\n"
-        f"**└ Прошло времени**: `{database.get_ftime()}` \n\n",
+        f"**└ Время работы юзербота**: `{basetime().display_time(seconds = uptime)}` \n\n"
+        f"**🕛 Первый запуск юзербота**: `{basetime().get_fdate()[0]}`\n"
+        f"**└ Прошло времени**: `{basetime().get_ftime()}` \n\n",
         disable_web_page_preview = True
     )
     await asyncio.sleep(20)
