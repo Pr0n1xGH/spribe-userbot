@@ -8,7 +8,6 @@ import asyncio
 import sys
 import traceback
 import nest_asyncio
-import time
 from rich.console import Console
 from sqlite3 import OperationalError
 
@@ -33,6 +32,6 @@ if __name__ == "__main__":
         except OperationalError:
             logger.error(f"{traceback.format_exc()}")
 
-        except Exception:
+        except Exception as e:
             logger.error(f"{traceback.format_exc()}")
             console.print_exception()
