@@ -20,12 +20,14 @@
 # >> https://www.gnu.org/licenses/agpl-3.0.html
 
 import os
+import atexit
 
 from pyrogram import Client, idle
 from pyrogram.errors import SessionPasswordNeeded, BadRequest, \
                                 FloodWait, PhoneCodeInvalid, PasswordHashInvalid
 
 from .utils import messages
+from .utils.loading import Loader
 
 
 def clear():
@@ -33,7 +35,10 @@ def clear():
         os.system("cls")
     else:
         os.system("clear")
-
+        
+@atexit.register
+def end_handler():
+    print(messages.Closed)
 
 class UserBot(Client):
     def __init__(self):
@@ -45,22 +50,24 @@ class UserBot(Client):
             workdir="userbot/utils/misc/",
             lang_code="ru"
         )
+        
 
     async def _start(self):
         if os.path.isfile("userbot/utils/misc/spribe-userbot.session"):
             clear()
-            print(f"{messages.Logo_Message}\n{messages.Runned}")
-            await self.start()
+            with Loader(messages.starting_userbot, f"{messages.Logo_Message}\n{messages.Runned}"):
+                await self.start()
 
         else:
             clear()
-            print(messages.Logo_Message)
-            await self.connect()
+            with Loader(messages.connecting_userbot, messages.Logo_Message):
+                await self.connect()
 
             while True:
                 try:
                     phone_ = input(messages.Phone)
-                    sent_code_info = await self.send_code(f"+{str(phone_)}")
+                    with Loader(messages.sending_code, messages.code_sended):
+                        sent_code_info = await self.send_code(f"+{str(phone_)}")
                     break
 
                 except BadRequest:
@@ -76,15 +83,16 @@ class UserBot(Client):
             try:
                 phone_code = input(messages.Code)
 
-                await self.sign_in(phone_number=phone_,
-                                   phone_code_hash=sent_code_info.phone_code_hash,
-                                   phone_code=phone_code)
+                with Loader(messages.signin_userbot, messages.successfully):
+                    await self.sign_in(phone_number=phone_,
+                                       phone_code_hash=sent_code_info.phone_code_hash,
+                                       phone_code=phone_code)
 
                 clear()
-                print(messages.Logo_Message + "\n" + messages.Runned)
 
                 await self.disconnect()
-                await self.start()
+                with Loader(messages.starting_userbot, messages.Logo_Message + "\n" + messages.Runned):
+                    await self.start()
 
             except SessionPasswordNeeded:
                 while True:
@@ -94,10 +102,10 @@ class UserBot(Client):
                         await self.check_password(password)
 
                         clear()
-                        print(messages.Logo_Message + "\n" + messages.Runned)
 
                         await self.disconnect()
-                        await self.start()
+                        with Loader(messages.starting_userbot, messages.Logo_Message + "\n" + messages.Runned):
+                            await self.start()
                         break
 
                     except PasswordHashInvalid:
