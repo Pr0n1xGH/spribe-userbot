@@ -29,28 +29,16 @@ from pyrogram.errors import SessionPasswordNeeded, BadRequest, \
 from .utils import messages
 from .utils.loading import Loader
 
-
-def clear():
-    if os.sys.platform == "win32":
-        os.system("cls")
-    else:
-        os.system("clear")
-        
-@atexit.register
-def end_handler():
-    print(messages.Closed)
-
 class UserBot(Client):
     def __init__(self):
         super().__init__(
             "spribe-userbot",
-            api_id=18822408,
-            api_hash="e2c5ab68e39c32c3a0ce94570204a0a4",
-            plugins=dict(root=f"userbot/plugins", exclude=["_example"]),
-            workdir="userbot/utils/misc/",
-            lang_code="ru"
+            api_id = 18822408,
+            api_hash = "e2c5ab68e39c32c3a0ce94570204a0a4",
+            plugins = dict(root=f"userbot/plugins", exclude=["_example"]),
+            workdir = "userbot/utils/misc/",
+            lang_code = "ru"
         )
-        
 
     async def _start(self):
         if os.path.isfile("userbot/utils/misc/spribe-userbot.session"):
@@ -60,7 +48,8 @@ class UserBot(Client):
 
         else:
             clear()
-            with Loader(messages.connecting_userbot, messages.Logo_Message):
+            with Loader(messages.connecting_userbot, 
+                        messages.Logo_Message):
                 await self.connect()
 
             while True:
@@ -118,3 +107,11 @@ class UserBot(Client):
                 print(f"{messages.Error}{e}")
 
         await idle()
+
+def clear():
+    if os.sys.platform == "win32":
+        os.system("cls")
+    else:
+        os.system("clear")
+
+atexit.register(lambda: print(messages.Closed))
