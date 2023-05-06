@@ -9,6 +9,7 @@ import os
 import zipfile
 import glob
 import time
+import importlib
 from pathlib import Path
 from platform import python_version
 
@@ -20,13 +21,13 @@ from ..utils.logger import logger
 from ..base.database import basetime
 from ..plugins.help import CMD_HELP
 
-
 @Client.on_message(filters.command('loadmod', prefixes='.') & filters.me)
 async def loadmod(client, message):
     reply_message = message.reply_to_message
 
     if not reply_message:
-        await message.edit("<emoji id=5210952531676504517>🔴</emoji> ▸ В этом сообщении не обнаружено модуля.")
+        await message.edit(
+            "<emoji id=5210952531676504517>🔴</emoji> ▸ В этом сообщении не обнаружено модуля.")
 
     else:
         if reply_message.document:
@@ -48,10 +49,13 @@ async def loadmod(client, message):
             else:
                 await client.download_media(file_id, file_name=f'plugins/{file_name}')
 
+            reload_chache()
             await message.edit(
-                '<emoji id=5438274168422409988>⚙</emoji> ▸ Модуль успешно добавлен!\n\n<emoji id=5341350410252723241>🛠️</emoji> Перезагрузите скрипт командой `.reload` что-бы модули заработали.')
+                f'<emoji id=5206607081334906820>⚙</emoji> ▸ Модуль успешно добавлен!\n\n'
+                f'<emoji id=5386757912607599167>🛠️</emoji> Если модули не корректно загрузились используйте `.reload`')
         else:
-            await message.edit('<emoji id=5210952531676504517>🔴</emoji> ▸ В этом сообщении не обнаружено модуля.')
+            await message.edit(
+                '<emoji id=5210952531676504517>🔴</emoji> ▸ В этом сообщении не обнаружено модуля.')
 
     await asyncio.sleep(10)
     await message.delete()
@@ -120,6 +124,7 @@ async def reload(client, message):
     try:
         await message.edit('<emoji id=5438274168422409988>🔄️</emoji> ▸ Скрипт перезагружается...')
         await client.restart(block=block == "True")
+        reload_chache()
         await message.edit('<emoji id=5438274168422409988>⚙</emoji> ▸ Скрипт перезагрузился.')
 
     except Exception as e:
@@ -208,6 +213,17 @@ async def inf(client, message):
     )
     await asyncio.sleep(20)
     await message.delete()
+
+def reload_chache():
+    plugins_dir = os.path.join(os.getcwd(), "userbot/plugins")
+
+    for file in os.listdir(plugins_dir):
+        if file.endswith(".py"):
+            module_name = file[:-3]
+            module = f"userbot.plugins.{module_name}"
+
+            importlib.invalidate_caches()
+            importlib.import_module(module)
 
 add_command_help(
     "default",
