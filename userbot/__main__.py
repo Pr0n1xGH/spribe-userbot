@@ -8,6 +8,7 @@ import asyncio
 import sys
 import traceback
 import nest_asyncio
+import importlib
 from rich.console import Console
 from sqlite3 import OperationalError
 
