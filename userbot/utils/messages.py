@@ -9,7 +9,7 @@ from colorama import Fore, Style
 
 colorama.init()
 
-Version = "v1.0.5"
+Version = "v1.0.6"
 
 lGithub = f"{Style.RESET_ALL}https://github.com/Pr0n1xGH/spribe-userbot"
 lSupport = f"{Style.RESET_ALL}https://t.me/devspribe"
