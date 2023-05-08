@@ -10,6 +10,7 @@ import zipfile
 import glob
 import time
 import importlib
+import sys
 from pathlib import Path
 from platform import python_version
 
@@ -35,10 +36,19 @@ async def loadmod(client, message):
             file_id = reply_message.document.file_id
 
             if file_name.endswith(".zip"):
-                await client.download_media(file_id, file_name=f'utils/misc/{file_name}')
+                await client.download_media(
+                    file_id, 
+                    file_name = f'utils/misc/{file_name}'
+                )
 
-                zip_path = os.path.join(os.getcwd(), "userbot/utils/misc/" + file_name)
-                dest_path = os.path.join(os.getcwd(), "userbot/plugins/")
+                zip_path = os.path.join(
+                    os.getcwd(), 
+                    "userbot/utils/misc/" + file_name
+                )
+                dest_path = os.path.join(
+                    os.getcwd(), 
+                    "userbot/plugins/"
+                )
 
                 with zipfile.ZipFile(zip_path, "r") as zip_ref:
                     zip_ref.extractall(dest_path)
@@ -47,12 +57,16 @@ async def loadmod(client, message):
                     os.remove("utils/misc/" + file_name)
 
             else:
-                await client.download_media(file_id, file_name=f'plugins/{file_name}')
+                await client.download_media(
+                    file_id, 
+                    file_name = f'plugins/{file_name}'
+                )
 
-            reload_chache()
+            reload_cache()
             await message.edit(
                 f'<emoji id=5206607081334906820>⚙</emoji> ▸ Модуль успешно добавлен!\n\n'
-                f'<emoji id=5386757912607599167>🛠️</emoji> Напишите `.reload` что-бы модули коректно загрузились')
+                f'<emoji id=5386757912607599167>🛠️</emoji> Если модули не корректно загрузились используйте `.reload`'
+            )
         else:
             await message.edit(
                 '<emoji id=5210952531676504517>🔴</emoji> ▸ В этом сообщении не обнаружено модуля.')
@@ -76,16 +90,25 @@ async def unloadmod(client, message):
 
         if os.path.isfile("userbot/plugins/" + name_module):
             if name_module in exclude_modules:
-                await message.edit('<emoji id=5210952531676504517>🔴</emoji> ▸ Незя!')
+                await message.edit(
+                    '<emoji id=5210952531676504517>🔴</emoji> ▸ Незя!'
+                )
             else:
-                os.remove("userbot/plugins/" + name_module)
-                CMD_HELP.pop(f"{name_module[:-3]}")
-                await message.edit("<emoji id=5206607081334906820>🟢</emoji> ▸ Модуль был удалён!")
+                os.remove(
+                    "userbot/plugins/" + name_module)
+
+                CMD_HELP.pop(
+                    f"{name_module[:-3]}")
+                
+                await message.edit(
+                    "<emoji id=5206607081334906820>🟢</emoji> ▸ Модуль был удалён!")
         else:
-            await message.edit("<emoji id=5210952531676504517>🔴</emoji> ▸ Такого модуля не существует.")
+            await message.edit(
+                "<emoji id=5210952531676504517>🔴</emoji> ▸ Такого модуля не существует.")
 
     except Exception as e:
-        await message.edit("<emoji id=5386757912607599167>🛠️</emoji> ▸ Произошла ошибка:\n\n" + e)
+        await message.edit(
+            "<emoji id=5386757912607599167>🛠️</emoji> ▸ Произошла ошибка:\n\n" + e)
 
     await asyncio.sleep(10)
     await message.delete()
@@ -93,25 +116,38 @@ async def unloadmod(client, message):
 
 @Client.on_message(filters.command('backup', prefixes='.') & filters.me)
 async def backup(client, message):
-    await message.edit('<emoji id=5438274168422409988>⚙</emoji> ▸ Бэкап модулей. Подождите...')
+    await message.edit(
+        '<emoji id=5438274168422409988>⚙</emoji> ▸ Бэкап модулей. Подождите...')
 
-    zip_file = zipfile.ZipFile('plugins.zip', 'w', zipfile.ZIP_DEFLATED)
+    zip_file = zipfile.ZipFile(
+        'plugins.zip', 
+        'w', zipfile.ZIP_DEFLATED
+    )
 
     modules = 0
     for root, dirs, files in os.walk("userbot/plugins/"):
-        for file in files:
+        for file in files: 
             if file.endswith('.py'):
-                if file != '_example.py' and file != 'default.py' and file != 'help.py':
-                    zip_file.write(os.path.join(root, file), arcname=os.path.basename(file))
+                if (file != '_example.py' 
+                    and file != 'default.py' 
+                        and file != 'help.py'
+                    ):
+                    zip_file.write(
+                        os.path.join(
+                            root, file
+                        ), 
+                    arcname = os.path.basename(file))
                     modules += 1
 
     zip_file.close()
     await message.delete()
 
     with open("plugins.zip", "rb") as file:
-        await client.send_document(chat_id=message.chat.id,
-                                   document=file,
-                                   caption=f"<emoji id=5449555539975481957>📦</emoji> ▸ Бэкап модулей ({modules})")
+        await client.send_document(
+            chat_id=message.chat.id,
+            document=file,
+            caption=f"<emoji id=5449555539975481957>📦</emoji> ▸ Бэкап модулей ({modules})"
+        )
 
     if os.path.isfile("plugins.zip"):
         os.remove("plugins.zip")
@@ -122,14 +158,21 @@ async def reload(client, message):
     block = ' '.join(message.command[1:])
 
     try:
-        await message.edit('<emoji id=5438274168422409988>🔄️</emoji> ▸ Скрипт перезагружается...')
-        await client.restart(block=block == "True")
-        reload_chache()
-        await message.edit('<emoji id=5438274168422409988>⚙</emoji> ▸ Скрипт перезагрузился.')
+        await message.edit(
+            '<emoji id=5438274168422409988>🔄️</emoji> ▸ Скрипт перезагружается...')
+        
+        await client.restart(
+            block = block == "True")
+        
+        reload_cache()
+        await message.edit(
+            '<emoji id=5438274168422409988>⚙</emoji> ▸ Скрипт перезагрузился.')
 
     except Exception as e:
-        await message.edit(f'<emoji id=5438274168422409988>🔄️</emoji> ▸ Ошибка...\n\n<emoji '
-                           f'id=5386757912607599167>🛠️</emoji> {e}')
+        await message.edit(
+            f'<emoji id=5438274168422409988>🔄️</emoji> ▸ Ошибка...\n\n<emoji '
+            f'id=5386757912607599167>🛠️</emoji> {e}'
+        )
 
     await asyncio.sleep(10)
     await message.delete()
@@ -139,14 +182,27 @@ async def reload(client, message):
 async def _logs(client, message):
     cmds = ' '.join(message.command[1:])
 
-    await message.edit(f"<emoji id=5438274168422409988>🔄️</emoji> Обработка...")
+    await message.edit(
+        f"<emoji id=5438274168422409988>🔄️</emoji> Обработка...")
+    
     if cmds == "all":
         zip_name = 'logs.zip'
 
-        with zipfile.ZipFile(zip_name, 'w', zipfile.ZIP_DEFLATED) as zipf:
-            for root, dirs, files in os.walk('logs'):
+        with (
+            zipfile.ZipFile(
+                zip_name, 
+                'w', 
+                zipfile.ZIP_DEFLATED)
+            ) as zipf:
+            for root, dirs, files in (
+                    os.walk('logs')
+                ):
                 for file in files:
-                    zipf.write(os.path.join(root, file))
+                    (
+                    zipf.write(
+                        os.path.join(root, file)
+                        )
+                    )
 
         with open(zip_name, "rb") as file:
             await message.delete()
@@ -160,13 +216,27 @@ async def _logs(client, message):
             os.remove(zip_name)
 
     else:
-        logs_dir = glob.glob("logs/*")
-        latest_file = max(logs_dir, key=os.path.getctime)
+        logs_dir = (
+            glob.glob("logs/*")
+        )
+        latest_file = (
+            max(
+                logs_dir, 
+                key = os.path.getctime)
+        )
 
         try:
-            file_text = Path(latest_file).read_text(encoding='utf-8')
+            file_text = (
+                Path(latest_file)
+                    .read_text(
+                        encoding='utf-8')
+            )
         except UnicodeDecodeError:
-            file_text = Path(latest_file).read_text(encoding='latin-1')
+            file_text = (
+                Path(latest_file)
+                    .read_text(
+                        encoding='latin-1')
+            )
 
         if len(file_text) > 3000:
             await message.delete()
@@ -189,13 +259,16 @@ async def inf(client, message):
     
     uptime = time.time() - start_time
     modules = 0
-    for root, dirs, files in os.walk("userbot/plugins/"):
+    for (root, 
+            dirs, 
+                files) in (
+            os.walk("userbot/plugins/")
+        ):
         for file in files:
             if file.endswith('.py'):
                 if (file != '_example.py' 
                     and file != 'default.py' 
-                    and file != 'help.py'
-                    ):
+                        and file != 'help.py'):
                     modules += 1
     
     await message.edit(
@@ -214,13 +287,16 @@ async def inf(client, message):
     await asyncio.sleep(20)
     await message.delete()
 
-def reload_chache():
+def reload_cache():
     plugins_dir = os.path.join(os.getcwd(), "userbot/plugins")
-
+    
     for file in os.listdir(plugins_dir):
         if file.endswith(".py"):
             module_name = file[:-3]
             module = f"userbot.plugins.{module_name}"
+
+            if module in sys.modules:
+                del sys.modules[module]
 
             importlib.invalidate_caches()
             importlib.import_module(module)
@@ -233,6 +309,6 @@ add_command_help(
         [".backup", "Делает бэкап всех модулей"],
         [".logs [all]", "Даёт логи последнего запуска скрипта(без all) / Даёт zip файл со всеми логами"],
         [".info", "Предоставляет информацию о юзерботе"],
-        [".reload", "Перезагружает скрипт"],
+        [".reload", "Перезагружает юзербота"],
     ],
 )
