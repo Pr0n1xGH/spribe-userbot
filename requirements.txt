@@ -1,10 +1,7 @@
 pyrogram
 colorama
 rich
-gpytranslate
 tgcrypto
-aiohttp
 requests
 nest_asyncio
-fake_useragent
-bs4
+patool
