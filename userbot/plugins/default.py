@@ -11,6 +11,8 @@ import glob
 import time
 import importlib
 import sys
+import subprocess
+import patoolib
 from pathlib import Path
 from platform import python_version
 
@@ -18,6 +20,9 @@ from pyrogram import Client, filters
 from pyrogram import __version__ as verpyro
 
 from .help import add_command_help
+from ..main import clear
+from ..utils import messages
+from ..utils.loading import Loader
 from ..utils.logger import logger
 from ..base.database import basetime
 from ..plugins.help import CMD_HELP
@@ -36,37 +41,46 @@ async def loadmod(client, message):
             file_id = reply_message.document.file_id
 
             if file_name.endswith(".zip"):
-                await client.download_media(
-                    file_id, 
-                    file_name = f'utils/misc/{file_name}'
-                )
+                clear()
 
-                zip_path = os.path.join(
-                    os.getcwd(), 
-                    "userbot/utils/misc/" + file_name
-                )
-                dest_path = os.path.join(
-                    os.getcwd(), 
-                    "userbot/plugins/"
-                )
+                with Loader("Загрузка модуля...", f"{messages.Logo_Message}\n{messages.Runned}"):
+                    await client.download_media(
+                        file_id, 
+                        file_name = f'utils/misc/{file_name}'
+                    )
 
-                with zipfile.ZipFile(zip_path, "r") as zip_ref:
-                    zip_ref.extractall(dest_path)
+                    zip_path = os.path.join(
+                        os.getcwd(), 
+                        "userbot/utils/misc/" + file_name
+                    )
+                    dest_path = os.path.join(
+                        os.getcwd(), 
+                        "userbot/plugins/"
+                    )
 
-                if os.path.isfile("utils/misc/" + file_name):
-                    os.remove("utils/misc/" + file_name)
+                    patoolib.extract_archive( 
+                        archive = zip_path, 
+                        outdir = dest_path
+                    )
 
+                    if os.path.isfile("userbot/utils/misc/" + file_name):
+                        os.remove("userbot/utils/misc/" + file_name)
+
+                    clear()
+
+                
             else:
                 await client.download_media(
                     file_id, 
                     file_name = f'plugins/{file_name}'
                 )
 
-            reload_cache()
             await message.edit(
                 f'<emoji id=5206607081334906820>⚙</emoji> ▸ Модуль успешно добавлен!\n\n'
                 f'<emoji id=5386757912607599167>🛠️</emoji> Что-бы модули корректно загрузились используйте `.reload`'
             )
+
+            reload_cache()
         else:
             await message.edit(
                 '<emoji id=5210952531676504517>🔴</emoji> ▸ В этом сообщении не обнаружено модуля.')
@@ -256,36 +270,57 @@ async def _logs(client, message):
 async def inf(client, message):
     from userbot.utils import messages
     from .. import start_time
-    
-    uptime = time.time() - start_time
-    modules = 0
-    for (root, 
-            dirs, 
-                files) in (
-            os.walk("userbot/plugins/")
-        ):
-        for file in files:
-            if file.endswith('.py'):
-                if (file != '_example.py' 
-                    and file != 'default.py' 
-                        and file != 'help.py'):
-                    modules += 1
-    
-    await message.edit(
-        f"🍃 **`Spribe-Userbot`**\n"
-        f"**└ Ссылки**: <i>[Github](https://github.com/Pr0n1xGH/spribe-userbot) | [Support](https://t.me/devspribe) | [Channel](https://t.me/tgscriptss)</i>\n\n"
-        f"**🛠️ Пользователь**: `{client.me.mention}`\n"
-        f"**├ Кол-во модулей**: `{modules}` \n"
-        f"**├ Версия юзербота**: `{messages.Version}` \n"
-        f"**├ Версия Python**: `{python_version()}` \n"
-        f"**├ Версия Pyrogram**: `{verpyro}` \n"
-        f"**└ Время работы юзербота**: `{basetime().display_time(seconds = uptime)}` \n\n"
-        f"**🕛 Первый запуск юзербота**: `{basetime().get_fdate()[0]}`\n"
-        f"**└ Прошло времени**: `{basetime().get_ftime()}` \n\n",
-        disable_web_page_preview = True
-    )
-    await asyncio.sleep(20)
-    await message.delete()
+
+    if message.reply_to_message.from_user:
+        await message.edit(
+            f"Информация о пользователе `{message.reply_to_message.from_user.username}`: \n\n"
+            f"🛠️ ID: `{message.reply_to_message.from_user.id}`\n"
+            f"├ Контакт: `{message.reply_to_message.from_user.phone_number if message.reply_to_message.from_user.is_contact else 'Скрыт'}`\n"
+            f"├ Взаимный контакт: `{'Есть' if message.reply_to_message.from_user.is_mutual_contact else 'Нету'}`\n"
+            f"├ Бот: `{'Да' if message.reply_to_message.from_user.is_bot else 'Нет'}`\n"
+            f"├ Проверен: `{'Да' if message.reply_to_message.from_user.is_verified else 'Нет'}`\n"
+            f"├ Ограничен: `{'Да' if message.reply_to_message.from_user.is_restricted else 'Нет'}`\n"
+            f"├ Скам метка: `{'Есть' if message.reply_to_message.from_user.is_scam else 'Нету'}`\n"
+            f"├ Фейк метка: `{'Есть' if message.reply_to_message.from_user.is_fake else 'Нету'}`\n"
+            f"├ Официальная поддержка Telegram: `{'Да' if message.reply_to_message.from_user.is_support else 'Нет'}`\n"
+            f"├ Премиум: `{'Есть' if message.reply_to_message.from_user.is_premium else 'Нету'}`\n"
+            f"├ Статус: `{'Онлайн' if message.reply_to_message.from_user.status == 'UserStatus.ONLINE' else 'Офлайн'}`\n"
+            f"├ {f'Следующая офлайн дата: `{message.reply_to_message.from_user.next_offline_date}`' if message.reply_to_message.from_user.status == 'UserStatus.ONLINE' else f'Последний раз онлайн: `{message.reply_to_message.from_user.last_online_date}`'}\n"
+            f"└ Номер датацентра: `{message.reply_to_message.from_user.dc_id}`\n"
+        )
+
+    else:
+        uptime = time.time() - start_time
+        modules = 0
+        for (root, 
+                dirs, 
+                    files) in (
+                os.walk("userbot/plugins/")
+            ):
+            for file in files:
+                if file.endswith('.py'):
+                    if (file != '_example.py' 
+                        and file != 'default.py' 
+                            and file != 'help.py'):
+                        modules += 1
+        
+        await message.edit(
+            f"🍃 **`Spribe-Userbot`**\n"
+            f"**└ Ссылки**: <i>[Github](https://github.com/Pr0n1xGH/spribe-userbot) | [Support](https://t.me/devspribe) | [Channel](https://t.me/tgscriptss)</i>\n\n"
+            f"**🛠️ Пользователь**: `{client.me.mention}`\n"
+            f"**├ Кол-во модулей**: `{modules}` \n"
+            f"**├ Версия юзербота**: `{messages.Version}` \n"
+            f"**├ Версия Python**: `{python_version()}` \n"
+            f"**├ Версия Pyrogram**: `{verpyro}` \n"
+            f"**└ Время работы юзербота**: `{basetime().display_time(seconds = uptime)}` \n\n"
+            f"**🕛 Первый запуск юзербота**: `{basetime().get_fdate()[0]}`\n"
+            f"**└ Прошло времени**: `{basetime().get_ftime()}` \n\n",
+            disable_web_page_preview = True
+        )
+
+        await asyncio.sleep(20)
+        await message.delete()
+
 
 def reload_cache():
     plugins_dir = os.path.join(os.getcwd(), "userbot/plugins")
@@ -300,6 +335,7 @@ def reload_cache():
 
             importlib.invalidate_caches()
             importlib.import_module(module)
+
 
 add_command_help(
     "default",
