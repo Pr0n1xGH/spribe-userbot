@@ -269,7 +269,7 @@ async def inf(client, message):
     from userbot.utils import messages
     from .. import start_time
 
-    if message.reply_to_message.from_user:
+    if message.reply_to_message:
         await message.edit(
             f"Информация о пользователе @{message.reply_to_message.from_user.username}: \n\n"
             f"🛠️ ID: `{message.reply_to_message.from_user.id}`\n"
