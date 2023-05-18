@@ -10,9 +10,7 @@ import zipfile
 import glob
 import time
 import importlib
-import sys
 import patoolib
-from time import sleep
 from pathlib import Path
 from platform import python_version
 
