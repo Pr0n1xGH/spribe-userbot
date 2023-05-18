@@ -11,8 +11,8 @@ import glob
 import time
 import importlib
 import sys
-import subprocess
 import patoolib
+from time import sleep
 from pathlib import Path
 from platform import python_version
 
@@ -80,7 +80,6 @@ async def loadmod(client, message):
                 f'<emoji id=5386757912607599167>🛠️</emoji> Что-бы модули корректно загрузились используйте `.reload`'
             )
 
-            reload_cache()
         else:
             await message.edit(
                 '<emoji id=5210952531676504517>🔴</emoji> ▸ В этом сообщении не обнаружено модуля.')
@@ -174,11 +173,12 @@ async def reload(client, message):
     try:
         await message.edit(
             '<emoji id=5438274168422409988>🔄️</emoji> ▸ Скрипт перезагружается...')
-        
+
         await client.restart(
             block = block == "True")
         
         reload_cache()
+        
         await message.edit(
             '<emoji id=5438274168422409988>⚙</emoji> ▸ Скрипт перезагрузился.')
 
@@ -188,7 +188,7 @@ async def reload(client, message):
             f'id=5386757912607599167>🛠️</emoji> {e}'
         )
 
-    await asyncio.sleep(10)
+    await asyncio.sleep(3)
     await message.delete()
 
 
@@ -273,9 +273,9 @@ async def inf(client, message):
 
     if message.reply_to_message.from_user:
         await message.edit(
-            f"Информация о пользователе `{message.reply_to_message.from_user.username}`: \n\n"
+            f"Информация о пользователе @{message.reply_to_message.from_user.username}: \n\n"
             f"🛠️ ID: `{message.reply_to_message.from_user.id}`\n"
-            f"├ Контакт: `{message.reply_to_message.from_user.phone_number if message.reply_to_message.from_user.is_contact else 'Скрыт'}`\n"
+            f"├ Номер: `{message.reply_to_message.from_user.phone_number if message.reply_to_message.from_user.is_contact else 'Скрыт'}`\n"
             f"├ Взаимный контакт: `{'Есть' if message.reply_to_message.from_user.is_mutual_contact else 'Нету'}`\n"
             f"├ Бот: `{'Да' if message.reply_to_message.from_user.is_bot else 'Нет'}`\n"
             f"├ Проверен: `{'Да' if message.reply_to_message.from_user.is_verified else 'Нет'}`\n"
@@ -324,17 +324,19 @@ async def inf(client, message):
 
 def reload_cache():
     plugins_dir = os.path.join(os.getcwd(), "userbot/plugins")
-    
+    modules_to_reload = []
+
     for file in os.listdir(plugins_dir):
         if file.endswith(".py"):
             module_name = file[:-3]
             module = f"userbot.plugins.{module_name}"
 
-            if module in sys.modules:
-                del sys.modules[module]
+            modules_to_reload.append(module)
 
-            importlib.invalidate_caches()
-            importlib.import_module(module)
+    importlib.invalidate_caches()
+
+    for module in modules_to_reload:
+        importlib.import_module(module)
 
 
 add_command_help(
