@@ -10,7 +10,7 @@ import zipfile
 import glob
 import time
 import importlib
-import patoolib
+import pyunpack
 from pathlib import Path
 from platform import python_version
 
@@ -40,32 +40,28 @@ async def loadmod(client, message):
 
             if file_name.endswith(".zip"):
                 clear()
-
-                with Loader("Загрузка модуля...", f"{messages.Logo_Message}\n{messages.Runned}"):
+                with Loader("Загрузка модулей... ", f"{messages.Logo_Message}\n{messages.Runned}"):
                     await client.download_media(
                         file_id, 
-                        file_name = f'utils/misc/{file_name}'
+                        file_name = f'utils\\misc\\{file_name}'
                     )
 
                     zip_path = os.path.join(
                         os.getcwd(), 
-                        "userbot/utils/misc/" + file_name
+                        "userbot\\utils\\misc\\" + file_name
                     )
+                    
                     dest_path = os.path.join(
                         os.getcwd(), 
-                        "userbot/plugins/"
+                        "userbot\\plugins\\"
                     )
 
-                    patoolib.extract_archive( 
-                        archive = zip_path, 
-                        outdir = dest_path
-                    )
+                    pyunpack.Archive(zip_path).extractall(dest_path)
 
                     if os.path.isfile("userbot/utils/misc/" + file_name):
                         os.remove("userbot/utils/misc/" + file_name)
 
                     clear()
-
                 
             else:
                 await client.download_media(
@@ -269,7 +265,7 @@ async def inf(client, message):
     from userbot.utils import messages
     from .. import start_time
 
-    if message.reply_to_message:
+    if message.reply_to_message.from_user:
         await message.edit(
             f"Информация о пользователе @{message.reply_to_message.from_user.username}: \n\n"
             f"🛠️ ID: `{message.reply_to_message.from_user.id}`\n"
