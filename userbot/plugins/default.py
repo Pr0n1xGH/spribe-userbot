@@ -265,23 +265,24 @@ async def inf(client, message):
     from userbot.utils import messages
     from .. import start_time
 
-    if message.reply_to_message.from_user:
-        await message.edit(
-            f"Информация о пользователе @{message.reply_to_message.from_user.username}: \n\n"
-            f"🛠️ ID: `{message.reply_to_message.from_user.id}`\n"
-            f"├ Номер: `{message.reply_to_message.from_user.phone_number if message.reply_to_message.from_user.is_contact else 'Скрыт'}`\n"
-            f"├ Взаимный контакт: `{'Есть' if message.reply_to_message.from_user.is_mutual_contact else 'Нету'}`\n"
-            f"├ Бот: `{'Да' if message.reply_to_message.from_user.is_bot else 'Нет'}`\n"
-            f"├ Проверен: `{'Да' if message.reply_to_message.from_user.is_verified else 'Нет'}`\n"
-            f"├ Ограничен: `{'Да' if message.reply_to_message.from_user.is_restricted else 'Нет'}`\n"
-            f"├ Скам метка: `{'Есть' if message.reply_to_message.from_user.is_scam else 'Нету'}`\n"
-            f"├ Фейк метка: `{'Есть' if message.reply_to_message.from_user.is_fake else 'Нету'}`\n"
-            f"├ Официальная поддержка Telegram: `{'Да' if message.reply_to_message.from_user.is_support else 'Нет'}`\n"
-            f"├ Премиум: `{'Есть' if message.reply_to_message.from_user.is_premium else 'Нету'}`\n"
-            f"├ Статус: `{'Онлайн' if message.reply_to_message.from_user.status == 'UserStatus.ONLINE' else 'Офлайн'}`\n"
-            f"├ {f'Следующая офлайн дата: `{message.reply_to_message.from_user.next_offline_date}`' if message.reply_to_message.from_user.status == 'UserStatus.ONLINE' else f'Последний раз онлайн: `{message.reply_to_message.from_user.last_online_date}`'}\n"
-            f"└ Номер датацентра: `{message.reply_to_message.from_user.dc_id}`\n"
-        )
+    if message.reply_to_message:
+        if message.reply_to_message.from_user:
+            await message.edit(
+                f"Информация о пользователе @{message.reply_to_message.from_user.username}: \n\n"
+                f"🛠️ ID: `{message.reply_to_message.from_user.id}`\n"
+                f"├ Номер: `{message.reply_to_message.from_user.phone_number if message.reply_to_message.from_user.is_contact else 'Скрыт'}`\n"
+                f"├ Взаимный контакт: `{'Есть' if message.reply_to_message.from_user.is_mutual_contact else 'Нету'}`\n"
+                f"├ Бот: `{'Да' if message.reply_to_message.from_user.is_bot else 'Нет'}`\n"
+                f"├ Проверен: `{'Да' if message.reply_to_message.from_user.is_verified else 'Нет'}`\n"
+                f"├ Ограничен: `{'Да' if message.reply_to_message.from_user.is_restricted else 'Нет'}`\n"
+                f"├ Скам метка: `{'Есть' if message.reply_to_message.from_user.is_scam else 'Нету'}`\n"
+                f"├ Фейк метка: `{'Есть' if message.reply_to_message.from_user.is_fake else 'Нету'}`\n"
+                f"├ Официальная поддержка Telegram: `{'Да' if message.reply_to_message.from_user.is_support else 'Нет'}`\n"
+                f"├ Премиум: `{'Есть' if message.reply_to_message.from_user.is_premium else 'Нету'}`\n"
+                f"├ Статус: `{'Онлайн' if message.reply_to_message.from_user.status == 'UserStatus.ONLINE' else 'Офлайн'}`\n"
+                f"├ {f'Следующая офлайн дата: `{message.reply_to_message.from_user.next_offline_date}`' if message.reply_to_message.from_user.status == 'UserStatus.ONLINE' else f'Последний раз онлайн: `{message.reply_to_message.from_user.last_online_date}`'}\n"
+                f"└ Номер датацентра: `{message.reply_to_message.from_user.dc_id}`\n"
+            )
 
     else:
         uptime = time.time() - start_time
