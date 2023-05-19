@@ -43,17 +43,17 @@ async def loadmod(client, message):
                 with Loader("Загрузка модулей... ", f"{messages.Logo_Message}\n{messages.Runned}"):
                     await client.download_media(
                         file_id, 
-                        file_name = f'utils\\misc\\{file_name}'
+                        file_name = f'utils/misc/{file_name}'
                     )
 
                     zip_path = os.path.join(
                         os.getcwd(), 
-                        "userbot\\utils\\misc\\" + file_name
+                        "userbot/utils/misc/" + file_name
                     )
-                    
+
                     dest_path = os.path.join(
                         os.getcwd(), 
-                        "userbot\\plugins\\"
+                        "userbot/plugins/"
                     )
 
                     pyunpack.Archive(zip_path).extractall(dest_path)
