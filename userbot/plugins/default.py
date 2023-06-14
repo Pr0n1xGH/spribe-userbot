@@ -5,33 +5,98 @@
 # >> https://www.gnu.org/licenses/agpl-3.0.html
 
 import asyncio
-import os
-import zipfile
-import glob
-import time
 import importlib
-import pyunpack
+import json
+import os
+import re
+import time
+import zipfile
 from pathlib import Path
 from platform import python_version
 
+import glob
+import pyunpack
+import requests
 from pyrogram import Client, filters
 from pyrogram import __version__ as verpyro
 
 from .help import add_command_help
+from ..base.database import basetime
 from ..main import clear
+from ..plugins.help import CMD_HELP
 from ..utils import messages
 from ..utils.loading import Loader
 from ..utils.logger import logger
-from ..base.database import basetime
-from ..plugins.help import CMD_HELP
 
-@Client.on_message(filters.command('loadmod', prefixes='.') & filters.me)
+@Client.on_message(filters.command('dlm', prefixes='.') & filters.me)
 async def loadmod(client, message):
     reply_message = message.reply_to_message
 
     if not reply_message:
-        await message.edit(
-            "<emoji id=5210952531676504517>🔴</emoji> ▸ В этом сообщении не обнаружено модуля.")
+        text = ' '.join(message.command[1:])
+        
+        if text.startswith('https://') and text.endswith('.py'):
+            response = requests.get(text)
+
+            if response.status_code == 200:
+                file_name = f"userbot/plugins/{text.split('/')[-1]}"
+
+                with open(file_name, 'wb') as f:
+                    f.write(response.content)
+                
+                await message.edit(
+                    f'<emoji id=5206607081334906820>⚙</emoji> ▸ Модуль успешно добавлен!\n\n'
+                    f'<emoji id=5386757912607599167>🛠️</emoji> Что-бы модули корректно загрузились используйте `.reload`'
+                )
+
+        elif text == '-all':
+            url_all_modules = "https://gist.githubusercontent.com/Pr0n1xGH/906c4cc69c24d71ca7d838ba3f7a8504/raw/modules.json"
+            response = requests.get(url_all_modules)
+
+            if response.status_code == 200:
+                jsn = json.loads(response.content)['modules']
+
+                text = f"🛠️ **Установка всех модулей...**\n└ **Установленно**:\n"
+                for module, url in jsn.items():
+                    text += f"» **Идёт установка __{module}__**...\n"
+                    await message.edit(text)
+
+                    file_name = f"userbot/plugins/{url.split('/')[-1]}"
+                    module_content = requests.get(url).content
+
+                    with open(file_name, 'wb') as f:
+                        f.write(module_content)
+
+                    text = re.sub(f"» \*\*Идёт установка __{module}__\*\*...\n", f"» {module} ✅\n", text)
+                    await message.edit(text)
+
+                await message.edit(
+                    f'<emoji id=5206607081334906820>⚙</emoji> ▸ Модули успешно установлены!\n\n'
+                    f'<emoji id=5386757912607599167>🛠️</emoji> Что-бы модули корректно загрузились используйте `.reload`'
+                )
+
+        else:
+            url_all_modules = "https://gist.githubusercontent.com/Pr0n1xGH/906c4cc69c24d71ca7d838ba3f7a8504/raw/modules.json"
+            response = requests.get(url_all_modules)
+
+            if response.status_code == 200:
+                try:
+                    url = json.loads(response.content)['modules'][f"{text}"]
+                    response = requests.get(url)
+
+                    file_name = f"userbot/plugins/{url.split('/')[-1]}"
+
+                    with open(file_name, 'wb') as f:
+                        f.write(response.content)
+
+                    await message.edit(
+                        f'<emoji id=5206607081334906820>⚙</emoji> ▸ Модуль успешно добавлен!\n\n'
+                        f'<emoji id=5386757912607599167>🛠️</emoji> Что-бы модули корректно загрузились используйте `.reload`'
+                    )
+
+                except Exception as e:
+                    await message.edit(
+                        "<emoji id=5210952531676504517>🔴</emoji> ▸ В этом сообщении не обнаружено модуля.")
 
     else:
         if reply_message.document:
@@ -82,7 +147,7 @@ async def loadmod(client, message):
     await message.delete()
 
 
-@Client.on_message(filters.command('unloadmod', prefixes='.') & filters.me)
+@Client.on_message(filters.command('delm', prefixes='.') & filters.me)
 async def unloadmod(client, message):
     name_module = ' '.join(message.command[1:])
 
@@ -336,8 +401,8 @@ def reload_cache():
 add_command_help(
     "default",
     [
-        [".loadmod", "Добавляет новый модуль(используется в ответ на сообщение)"],
-        [".unloadmod [Название модуля]", "Удаляет модуль"],
+        [".dlm [Ответ на сообщение/Название модуля/Ссылка на модуль/-all]", "Добавляет новый модуль(Флаг `-all` скачивает сразу все доступные модули)"],
+        [".delm [Название модуля]", "Удаляет модуль"],
         [".backup", "Делает бэкап всех модулей"],
         [".logs [all]", "Даёт логи последнего запуска скрипта(без all) / Даёт zip файл со всеми логами"],
         [".info", "Предоставляет информацию о юзерботе"],
