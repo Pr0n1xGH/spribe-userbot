@@ -4,60 +4,68 @@
 # You can redistribute it and/or modify it under the terms of the GNU AGPLv3
 # >> https://www.gnu.org/licenses/agpl-3.0.html
 
-from itertools import cycle
-from shutil import get_terminal_size
-from threading import Thread
-from time import sleep
+import threading
+import itertools
+import time
+import shutil
+import sys
+from typing import Optional
 
 class Loader:
-    def __init__(self, desc="Loading...", end="Done!", timeout=0.1):
-        """
-        A loader-like context manager
-
-        Args:
-            desc (str, optional): The loader's description. Defaults to "Loading...".
-            end (str, optional): Final print. Defaults to "Done!".
-            timeout (float, optional): Sleep time between prints. Defaults to 0.1.
-        """
+    """
+    Класс для отображения анимированного индикатора загрузки в терминале.
+    
+    Attributes:
+        desc (str): Описание загрузки
+        end (str): Сообщение по завершении
+        timeout (float): Задержка между кадрами анимации
+        done (bool): Флаг завершения анимации
+    """
+    
+    def __init__(
+        self,
+        desc: str = "Загрузка...",
+        end: str = "Готово!",
+        timeout: float = 0.1
+    ) -> None:
         self.desc = desc
-        self.end = end
+        self.end = end 
         self.timeout = timeout
-
-        self._thread = Thread(target=self._animate, daemon=True)
-        self.steps = ["⢿ ", "⣻ ", "⣽ ", "⣾ ", "⣷ ", "⣯ ", "⣟ ", "⡿ "]
         self.done = False
-
-    def start(self):
+        
+        self._animation_chars = ["⢿", "⣻", "⣽", "⣾", "⣷", "⣯", "⣟", "⡿"]
+        self._thread = threading.Thread(target=self._animate, daemon=True)
+        
+    def start(self) -> 'Loader':
+        """Запускает анимацию в отдельном потоке"""
         self._thread.start()
         return self
+        
+    def stop(self) -> None:
+        """Останавливает анимацию и выводит финальное сообщение"""
+        self.done = True
+        self._thread.join()
+        
+        # Очищаем текущую строку
+        cols = shutil.get_terminal_size().columns
+        sys.stdout.write('\r' + ' ' * cols)
+        sys.stdout.write(f'\r{self.end}\n')
+        sys.stdout.flush()
 
-    def _animate(self):
-        for c in cycle(self.steps):
+    def _animate(self) -> None:
+        """Основной цикл анимации"""
+        for char in itertools.cycle(self._animation_chars):
             if self.done:
                 break
-            print(f"\r{self.desc} {c}", flush=True, end="")
-            sleep(self.timeout)
+                
+            sys.stdout.write(f'\r{self.desc} {char} ')
+            sys.stdout.flush()
+            time.sleep(self.timeout)
 
-    def __enter__(self):
-        self.start()
+    def __enter__(self) -> 'Loader':
+        """Поддержка контекстного менеджера"""
+        return self.start()
 
-    def stop(self):
-        self.done = True
-        cols = get_terminal_size((80, 20)).columns
-        print("\r" + " " * cols, end="", flush=True)
-        print(f"\r{self.end}", flush=True)
-
-    def __exit__(self, exc_type, exc_value, tb):
-        # handle exceptions with those variables ^
+    def __exit__(self, exc_type, exc_val, exc_tb) -> None:
+        """Автоматическая остановка при выходе из контекста"""
         self.stop()
-
-
-# if __name__ == "__main__":
-#     with Loader("Loading with context manager..."):
-#         for i in range(10):
-#             sleep(0.25)
-#
-#     loader = Loader("Loading with object...", "That was fast!", 0.05).start()
-#     for i in range(10):
-#         sleep(0.25)
-#     loader.stop()
