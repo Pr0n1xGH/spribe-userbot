@@ -23,7 +23,7 @@ from pyrogram import __version__ as verpyro
 from pyrogram.types import Message
 
 from .help import add_command_help
-from ..base.database import basetime
+from ..base.database import DatabaseTime
 from ..main import clear
 from ..plugins.help import CMD_HELP
 from ..utils import messages
@@ -316,9 +316,9 @@ async def inf(client: Client, message: Message) -> None:
             f"**├ Версия юзербота**: `{messages.Version}` \n"
             f"**├ Версия Python**: `{python_version()}` \n"
             f"**├ Версия Pyrogram**: `{verpyro}` \n"
-            f"**└ Время работы юзербота**: `{basetime().display_time(seconds=uptime)}` \n\n"
-            f"**🕛 Первый запуск юзербота**: `{basetime().get_fdate()[0]}`\n"
-            f"**└ Прошло времени**: `{basetime().get_ftime()}` \n\n",
+            f"**└ Время работы юзербота**: `{DatabaseTime()._format_time_interval(uptime)}` \n\n"
+            f"**🕛 Первый запуск юзербота**: `{DatabaseTime().get_first_date()[0]}`\n"
+            f"**└ Прошло времени**: `{DatabaseTime().get_uptime()}` \n\n",
             disable_web_page_preview=True
         )
         
