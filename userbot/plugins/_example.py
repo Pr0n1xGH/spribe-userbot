@@ -60,3 +60,62 @@ add_command_help(
 Хотите поделиться своим модулем?
 - Напишите нам в Telegram для публикации в @tgscriptss
 """
+
+# ===========================================================================================
+
+"""
+This is an example of creating a module for Spribe Userbot.
+Here you will find the basic principles of creating your own commands.
+"""
+
+# To create modules you will need:
+# 1. Basic Python knowledge
+# 2. Understanding of working with Pyrogram library
+# 3. A little patience :)
+
+# Import necessary components
+from .help import add_command_help  # For adding commands to .help reference
+from ..utils.logger import logger   # For logging errors and events
+
+# Main Pyrogram components
+from pyrogram import Client, filters
+
+# Create a simple command
+# filters.command('command', prefixes='.') - specify command name and prefix
+# filters.me - command will only work from userbot owner
+@Client.on_message(filters.command('exhelp', prefixes='.') & filters.me)
+async def example_help(client, message):
+    """
+    Example of a simple command that sends a message.
+    
+    Important notes:
+    1. Function name must be unique across the entire userbot
+    2. Command must also be unique
+    3. It is recommended to use a prefix in the function name
+       (e.g., ex_help if your module is called example)
+    """
+    await message.edit_text("This is an example help message!")
+
+# How to add a command to .help reference:
+add_command_help(
+    "example",  # Module name (must match filename without .py)
+    [
+        [".exhelp", "Shows example help message"],
+        # You can add more commands:
+        # [".command", "command description"],
+    ]
+)
+
+"""
+Useful tips:
+1. Always add descriptions to your functions via docstring
+2. Use logger to catch errors
+3. Maintain uniqueness of command and function names
+4. Try to write clear and readable code
+
+Need help or have questions?
+- Telegram: @nob0dy_tg
+
+Want to share your module?
+- Write to us on Telegram for publication in @tgscriptss
+"""
