@@ -5,42 +5,54 @@
 # >> https://www.gnu.org/licenses/agpl-3.0.html
 
 import sqlite3
-
 import time
 import datetime
+from typing import Optional, Tuple, Union
 
 
-class basetime():
+class DatabaseTime:
+    """Класс для работы с базой данных времени пользователя"""
+    
     def __init__(self) -> None:
-        self.conn = sqlite3.connect(r'userbot/base/databases/datatime.db')
+        """Инициализация подключения к БД и создание таблицы"""
+        self.conn = sqlite3.connect('userbot/base/databases/datatime.db')
         self.cur = self.conn.cursor()
         
-        self.cur.execute("""CREATE TABLE IF NOT EXISTS user(
-            first_start TEXT,
-            first_time REAL);
+        self._create_table()
+        
+    def _create_table(self) -> None:
+        """Создание таблицы пользователя если она не существует"""
+        self.cur.execute("""
+            CREATE TABLE IF NOT EXISTS user (
+                first_start TEXT NOT NULL,
+                first_time REAL NOT NULL
+            )
         """)
         self.conn.commit()
         
-    def get_fdate(self) -> any:
-        self.fdate = self.conn.execute(f'SELECT first_start FROM user').fetchone()
-        
-        return self.fdate
+    def get_first_date(self) -> Optional[Tuple[str]]:
+        """Получение даты первого запуска"""
+        return self.conn.execute('SELECT first_start FROM user').fetchone()
     
-    def get_ftime(self) -> any:
-        ftime = self.conn.execute(f'SELECT first_time FROM user').fetchone()
-        secs = time.time() - float(ftime[0])
-        
-        return self.display_time(secs)
+    def get_uptime(self) -> str:
+        """Получение времени работы в человекочитаемом формате"""
+        ftime = self.conn.execute('SELECT first_time FROM user').fetchone()
+        if not ftime:
+            return "0с"
+            
+        elapsed = time.time() - float(ftime[0])
+        return self._format_time_interval(elapsed)
     
-    def display_time(self, seconds, granularity=3) -> any:
-        """Turns seconds into a more pleasant view
-
+    def _format_time_interval(self, seconds: float, granularity: int = 3) -> str:
+        """
+        Форматирование временного интервала в читаемый вид
+        
         Args:
-            - seconds (int): seconds
-            - granularity (int, optional): maximum output of internals. Defaults to 3.
-
+            seconds: Количество секунд
+            granularity: Максимальное количество временных единиц в выводе
+            
         Returns:
-            Turns it into finished text
+            Отформатированная строка времени
         """
         intervals = (
             ('нед', 604800),
@@ -52,22 +64,19 @@ class basetime():
         
         result = []
         for name, count in intervals:
-            value = seconds // count
+            value = int(seconds // count)
             if value:
                 seconds -= value * count
-                if value == 1:
-                    name = name.rstrip('s')
-                result.append("{} {}".format(value, name))
-        return ', '.join(result[:granularity])
+                result.append(f"{value} {name}")
+                
+        return ', '.join(result[:granularity]) if result else '0с'
 
-check = basetime().cur.execute("SELECT first_start FROM user")
 
-if check.fetchone() is None: 
-    first_time = time.time()
+# Инициализация первого запуска
+db = DatabaseTime()
+if not db.get_first_date():
+    current_time = time.time()
+    current_date = datetime.datetime.now().strftime("%d.%m.%Y %H:%M")
     
-    now = datetime.datetime.now()
-    first_date = now.strftime(f"%d.%m.%Y %H:%M")
-    dt = basetime()
-    
-    dt.cur.execute("INSERT INTO user VALUES(?, ?);", (first_date, first_time))
-    dt.conn.commit()
+    db.cur.execute("INSERT INTO user VALUES (?, ?)", (current_date, current_time))
+    db.conn.commit()
