@@ -7,32 +7,42 @@
 import asyncio
 import sys
 import traceback
-import nest_asyncio
-import importlib
+from typing import NoReturn
 from rich.console import Console
 from sqlite3 import OperationalError
 
 from .utils.logger import logger
+import nest_asyncio
 
 nest_asyncio.apply()
 console = Console()
 
+def check_python_version() -> bool:
+    return sys.version_info >= (3, 9, 0)
+
+def check_package_name() -> bool:
+    return __package__ == "userbot"
+
+async def main() -> NoReturn:
+    if not check_python_version():
+        console.print("[red]Ошибка: требуется Python версии 3.9.0 или выше[/red]")
+        sys.exit(1)
+        
+    if not check_package_name():
+        console.print("[red]Ошибка: запуск возможен только как пакет Python[/red]")
+        sys.exit(1)
+        
+    try:
+        from .main import UserBot
+        await UserBot()._start()
+        
+    except OperationalError as e:
+        logger.error("Ошибка базы данных: %s", traceback.format_exc())
+        console.print("[red]Критическая ошибка при работе с базой данных[/red]")
+        
+    except Exception as e:
+        logger.error("Необработанное исключение: %s", traceback.format_exc())
+        console.print_exception()
+        
 if __name__ == "__main__":
-    if sys.version_info < (3, 9, 0):
-        print("Error: you must use at least Python version 3.9.0")
-
-    elif __package__ != "userbot":
-        print("Error: you cannot run this as a script, you must execute as a package")
-
-    else:
-        try:
-            from .main import UserBot
-            
-            asyncio.run(UserBot()._start())
-            
-        except OperationalError:
-            logger.error(f"{traceback.format_exc()}")
-
-        except Exception as e:
-            logger.error(f"{traceback.format_exc()}")
-            console.print_exception()
+    asyncio.run(main())
