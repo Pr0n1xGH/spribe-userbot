@@ -61,7 +61,7 @@ class ModuleManager:
                 file_name = f"userbot/plugins/{module_url.split('/')[-1]}"
                 await ModuleManager.download_module(module_url, file_name)
                 
-                text = re.sub(f"» \*\*Идёт установка __{module_name}__\*\*...\n", f"» {module_name} ✅\n", text)
+                text = re.sub(f"» **Идёт установка __{module_name}__**...\n", f"» {module_name} ✅\n", text)
                 await message.edit(text)
                 
             return True
