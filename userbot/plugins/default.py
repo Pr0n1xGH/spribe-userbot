@@ -30,122 +30,119 @@ from ..utils import messages
 from ..utils.loading import Loader
 from ..utils.logger import logger
 
-
 class ModuleManager:
     """Менеджер для работы с модулями"""
-    
+
     EXCLUDE_MODULES = ["default", "default.py", "help", "help.py", "_example", "_example.py"]
-    
+
     @staticmethod
     async def download_module(url: str, file_name: str) -> None:
         """Загружает модуль по URL"""
         response = requests.get(url)
         if response.status_code == 200:
+            os.makedirs(os.path.dirname(file_name), exist_ok=True)
             with open(file_name, 'wb') as f:
                 f.write(response.content)
-                
+
     @staticmethod
-    async def install_all_modules(message: Message) -> None:
+    async def install_all_modules(message: Message) -> bool:
         """Устанавливает все доступные модули"""
         url = "https://gist.githubusercontent.com/Pr0n1xGH/906c4cc69c24d71ca7d838ba3f7a8504/raw/modules.json"
         response = requests.get(url)
-        
         if response.status_code == 200:
-            modules = json.loads(response.content)['modules']
-            text = "🛠️ **Установка всех модулей...**\n└ **Установленно**:\n"
-            
+            modules = json.loads(response.text).get('modules', {})
+            text = "🛠️ **Установка всех модулей...**\n└ **Установлено**:\n"
+
             for module_name, module_url in modules.items():
-                text += f"» **Идёт установка __{module_name}__**...\n"
-                await message.edit(text)
-                
-                file_name = f"userbot/plugins/{module_url.split('/')[-1]}"
-                await ModuleManager.download_module(module_url, file_name)
-                
-                text = re.sub(f"» **Идёт установка __{module_name}__**...\n", f"» {module_name} ✅\n", text)
-                await message.edit(text)
-                
+                try:
+                    text += f"» **Идёт установка __{module_name}__**...\n"
+                    await message.edit(text)
+
+                    file_name = f"userbot/plugins/{module_url.split('/')[-1]}"
+                    await ModuleManager.download_module(module_url, file_name)
+
+                    text = re.sub(f"» **Идёт установка __{module_name}__**...\n", f"» {module_name} ✅\n", text)
+                    await message.edit(text)
+                except Exception as e:
+                    text += f"» {module_name} ❌ (Ошибка: {str(e)})\n"
+                    await message.edit(text)
+
             return True
         return False
-
 
 @Client.on_message(filters.command('dlm', prefixes='.') & filters.me)
 async def loadmod(client: Client, message: Message) -> None:
     """Загрузка модулей"""
     reply_message = message.reply_to_message
-    
+
     if not reply_message:
         text = ' '.join(message.command[1:])
-        
+
         if text.startswith('https://') and text.endswith('.py'):
             file_name = f"userbot/plugins/{text.split('/')[-1]}"
             await ModuleManager.download_module(text, file_name)
             await message.edit(
                 '<emoji id=5206607081334906820>⚙</emoji> ▸ Модуль успешно добавлен!\n\n'
-                '<emoji id=5386757912607599167>🛠️</emoji> Что-бы модули корректно загрузились используйте `.reload`'
+                '<emoji id=5386757912607599167>🛠️</emoji> Чтобы модули корректно загрузились, используйте `.reload`'
             )
-            
+
         elif text == '-all':
             if await ModuleManager.install_all_modules(message):
                 await message.edit(
                     '<emoji id=5206607081334906820>⚙</emoji> ▸ Модули успешно установлены!\n\n'
-                    '<emoji id=5386757912607599167>🛠️</emoji> Что-бы модули корректно загрузились используйте `.reload`'
+                    '<emoji id=5386757912607599167>🛠️</emoji> Чтобы модули корректно загрузились, используйте `.reload`'
                 )
-                
+
         else:
             url = "https://gist.githubusercontent.com/Pr0n1xGH/906c4cc69c24d71ca7d838ba3f7a8504/raw/modules.json"
             response = requests.get(url)
-            
             if response.status_code == 200:
                 try:
-                    module_url = json.loads(response.content)['modules'][text]
+                    modules = json.loads(response.text).get('modules', {})
+                    module_url = modules[text]
                     file_name = f"userbot/plugins/{module_url.split('/')[-1]}"
                     await ModuleManager.download_module(module_url, file_name)
-                    
                     await message.edit(
                         '<emoji id=5206607081334906820>⚙</emoji> ▸ Модуль успешно добавлен!\n\n'
-                        '<emoji id=5386757912607599167>🛠️</emoji> Что-бы модули корректно загрузились используйте `.reload`'
+                        '<emoji id=5386757912607599167>🛠️</emoji> Чтобы модули корректно загрузились, используйте `.reload`'
                     )
-                    
-                except Exception:
+                except KeyError:
                     await message.edit(
-                        "<emoji id=5210952531676504517>🔴</emoji> ▸ В этом сообщении не обнаружено модуля."
+                        "<emoji id=5210952531676504517>🔴</emoji> ▸ Модуль не найден в списке."
                     )
-                    
     else:
         if reply_message.document:
             file_name = reply_message.document.file_name
             file_id = reply_message.document.file_id
-            
+
             if file_name.endswith(".zip"):
-                clear()
-                with Loader("Загрузка модулей... ", f"{messages.Logo_Message}\n{messages.Runned}"):
-                    zip_path = os.path.join(os.getcwd(), "userbot/utils/misc/" + file_name)
-                    dest_path = os.path.join(os.getcwd(), "userbot/plugins/")
-                    
-                    await client.download_media(file_id, file_name=f'utils/misc/{file_name}')
-                    pyunpack.Archive(zip_path).extractall(dest_path)
-                    
-                    if os.path.isfile("userbot/utils/misc/" + file_name):
-                        os.remove("userbot/utils/misc/" + file_name)
-                        
-                    clear()
-                    
+                zip_path = os.path.join("userbot/utils/misc/", file_name)
+                dest_path = "userbot/plugins/"
+
+                await client.download_media(file_id, file_name=zip_path)
+                os.makedirs(dest_path, exist_ok=True)
+
+                # Распаковка ZIP
+                import zipfile
+                with zipfile.ZipFile(zip_path, 'r') as zip_ref:
+                    zip_ref.extractall(dest_path)
+
+                os.remove(zip_path)
             else:
-                await client.download_media(file_id, file_name=f'plugins/{file_name}')
-                
+                file_path = os.path.join("userbot/plugins/", file_name)
+                await client.download_media(file_id, file_name=file_path)
+
             await message.edit(
                 '<emoji id=5206607081334906820>⚙</emoji> ▸ Модуль успешно добавлен!\n\n'
-                '<emoji id=5386757912607599167>🛠️</emoji> Что-бы модули корректно загрузились используйте `.reload`'
+                '<emoji id=5386757912607599167>🛠️</emoji> Чтобы модули корректно загрузились, используйте `.reload`'
             )
-            
         else:
             await message.edit(
                 '<emoji id=5210952531676504517>🔴</emoji> ▸ В этом сообщении не обнаружено модуля.'
             )
-            
+
     await asyncio.sleep(10)
     await message.delete()
-
 
 @Client.on_message(filters.command('delm', prefixes='.') & filters.me)
 async def unloadmod(client: Client, message: Message) -> None:
