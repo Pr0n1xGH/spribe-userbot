@@ -30,6 +30,14 @@ from ..utils import messages
 from ..utils.loading import Loader
 from ..utils.logger import logger
 
+import requests
+import asyncio
+import os
+import re
+import json
+from pyrogram import Client, filters
+from pyrogram.types import Message
+
 class ModuleManager:
     """Менеджер для работы с модулями"""
 
@@ -61,7 +69,8 @@ class ModuleManager:
                     file_name = f"userbot/plugins/{module_url.split('/')[-1]}"
                     await ModuleManager.download_module(module_url, file_name)
 
-                    text = re.sub(f"» **Идёт установка __{module_name}__**...\n", f"» {module_name} ✅\n", text)
+                    escaped_module_name = re.escape(f"» **Идёт установка __{module_name}__**...\n")
+                    text = re.sub(escaped_module_name, f"» {module_name} ✅\n", text)
                     await message.edit(text)
                 except Exception as e:
                     text += f"» {module_name} ❌ (Ошибка: {str(e)})\n"
